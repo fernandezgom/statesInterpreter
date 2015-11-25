@@ -33,7 +33,8 @@ $(document).ready(function() {
 			 console.log(contents);
 			 states = JSON.parse(contents);
 			 alert("File parsed correctly");
-			 setInterval(function(){getSupport()},5000);
+			 //setInterval(function(){getSupport()},5000);
+			 setInterval(function(){getSupportKNear()},5000);
 		  }
 		  r.readAsText(f);
 		}
@@ -67,6 +68,12 @@ function saveButtonHandler() {
 		states[po].sbu = $("#cb3").prop('checked');
 		states[po].fState = $("#cbState").prop('checked');
 		GenerateState();
+	}
+}
+
+function makeAlert(text){
+	if (typeof text != 'undefined') {
+		alert(text);
 	}
 }
 
@@ -238,7 +245,53 @@ function getSupport(){
 	if (distances.length>0) {
 		getEuclideanSupport(distances);
 	}
-	
+}
+
+//Calculate Hamming distance using 2 strings
+function naiveHammerDistance(str1, str2) {
+    var dist = 0;
+    str1 = str1.toLowerCase();
+    str2 = str2.toLowerCase();
+     for(var i = 0; i < str1.length; i++) {
+        if(str2[i] && str2[i] !== str1[i]) {
+            dist += Math.abs(str1.charCodeAt(i) - str2.charCodeAt(i)) + Math.abs(str2.indexOf( str1[i] )) * 2;
+        } 
+        else if(!str2[i]) {
+            //  If there's no letter in the comparing string
+            dist += dist;
+        }
+    }
+    return dist;
+}
+
+function getSupportKNear(){
+	GenerateState();
+	//var generator = require('knear'); 
+	var machines =[];
+	for(var i = 0; i < states.length; i++){
+		for(var j = 0; j < states[i].stObject.initial_model.length; j++){
+			var positions=(states[i].stObject.initial_model.length*2);
+			if (machines[i]==null) { //JLF: Only checking numerators an denominators
+				var machine = new generator.kNear(positions);
+				machine.learn(generateVectorForKNearCalculation(states[i].stObject.initial_model), i);
+				machines[i]=machine;
+			}
+			else {
+				machines[i].learn(generateVectorForKNearCalculation(states[i].stObject.initial_model), i);
+			}
+		}		
+	}
+	machines[currentModel.initial_model.length].classify(generateVectorForKNearCalculation(currentModel.initial_model));
+}
+
+
+function generateVectorForKNearCalculation(model){
+	var vector=[];
+	for(var i = 0; i < model.length; i++){
+		vector.push(model[i].numerator);
+		vector.push(model[i].denominator);
+	}
+	return vector;
 }
 
 function calculateEuclideanDistances(cm){
@@ -265,7 +318,6 @@ function calculateEuclideanDistances(cm){
 }
 
 function getEuclideanSupport(dt) {
-	var allDistances=[];
 	var fin=10000;
 	var sAux;
 	for(var i = 0; i < dt.length; i++){
@@ -280,9 +332,9 @@ function getEuclideanSupport(dt) {
 		}
 	}
 	if (sAux !=null){ //Devuelve el socratic feedback del estado mas cercano
-		//if (states[sAux].fState==true && fin==0) { //At the moment only shows the final exact state
+		if (states[sAux].fState==true && fin==0) { //At the moment only shows the final exact state
 			alert(states[sAux].socratic);
-		//}	
+		}	
 	}	
 }
 

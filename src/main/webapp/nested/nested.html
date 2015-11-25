@@ -1,0 +1,87 @@
+<!-- Markup for lists inside the dropzone. It's inside a seperate template
+     because it will be used recursively. The dnd-list directive enables
+     to drop elements into the referenced array. The dnd-draggable directive
+     makes an element draggable and will transfer the object that was
+     assigned to it. If an element was dragged away, you have to remove
+     it from the original list yourself using the dnd-moved attribute -->
+<script type="text/ng-template" id="list.html">
+    <ul dnd-list="list">
+        <li ng-repeat="state in list"
+            dnd-draggable="state"
+            dnd-effect-allowed="move"
+            dnd-moved="list.splice($index, 1)"
+            dnd-selected="models.selected = state"
+            ng-class="{selected: models.selected === state}"
+            ng-include="state.type + '.html'">
+        </li>
+    </ul>
+</script>
+
+<!-- This template is responsible for rendering a fractions element. It uses
+     the above list template to render each fractions column -->
+<script type="text/ng-template" id="fractions.html">
+    <div class="fractions-element box box-blue">
+        <h3>Fractions {{state.id}}</h3>
+        <div class="column" ng-repeat="list in state.columns" ng-include="'list.html'"></div>
+        <div class="clearfix"></div>
+    </div>
+</script>
+
+<!-- Template for a normal list state -->
+<script type="text/ng-template" id="state.html">
+    <div class="state">state {{state.id}}</div>
+</script>
+<table style="width: 300px; height: 300px">
+	<tr>
+		<td valign="top">
+			<div>
+				<div class="toolbox box box-yellow box-padding" style="width: 110px; height: 160px">
+					<h3 class="customfont">New Elements</h3>
+					<ul>
+						<!-- The toolbox only allows to copy objects, not move it. After a new
+                 element was created, dnd-copied is invoked and we generate the next id -->
+						<li ng-repeat="state in models.templates" dnd-draggable="state"
+							dnd-effect-allowed="copy" dnd-copied="state.id = state.id + 1">
+							<button type="button" class="btn btn-default" style="width: 70px; height: 30px"
+								disabled="disabled">{{state.type}}</button>
+						</li>
+					</ul>
+				</div>
+
+<!-- 				<div ng-if="models.selected" class="box box-yellow box-padding"> -->
+<!-- 					<h3>Selected</h3> -->
+<!-- 					<strong>Type: </strong> {{models.selected.type}}<br> <input -->
+<!-- 						type="text" ng-model="models.selected.id" class="form-control" -->
+<!-- 						style="margin-top: 5px" /> -->
+<!-- 				</div> -->
+
+				<div class="trashcan box box-yellow box-padding" style="width: 110px; height: 150px" >
+					<!-- If you use [] as referenced list, the dropped elements will be lost -->
+					<h3>Trashcan</h3>
+					<ul dnd-list="[]">
+						<li><img src="nested/trashcan.jpg"></li>
+					</ul>
+				</div>
+			</div>
+		</td>
+		<td valign="top" style="height: 100%">
+			<div style="height: 100%">
+				<div class="row" style="height: 100%">
+					<div ng-repeat="(zone, list) in models.dropzones" style="height: 100%">
+						<div class="dropzone box box-yellow" style="height: 94%">
+							<!-- The dropzone also uses the list template -->
+							<h3>Tree States Panel</h3>
+							<div ng-include="'list.html'"></div>
+						</div>
+					</div>
+				</div>
+
+				<!-- 	<div view-source="nested" -->
+				<!-- 		highlight-lines="{markup: '1-18, 20-28, 40-42, 57-68, 78-82'}"></div> -->
+
+				<!-- 	<h2>Generated Model</h2> -->
+				<!-- 	<pre>{{modelAsJson}}</pre> -->
+			</div> <!-- Sidebar -->
+		</td>
+	</tr>
+</table>
