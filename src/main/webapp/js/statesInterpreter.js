@@ -47,15 +47,18 @@ $(document).ready(function() {
 
 });
 
+//JLF: This function removes the current state selected 
 function removeButtonHandler() {
 	if (currentState > 0) {
-		$("#st" + currentState).remove();
+		//No longer needed this line with the new component
+		//$("#st" + currentState).remove();
 		cleanHandleStatePanel();
 		var po = currentState - 1;
 		states[po].isValid=false;
 	}
 }
 
+//JLF: Save the current state
 function saveButtonHandler() {
 	if (currentState > 0) {
 		newState = false;
@@ -77,6 +80,7 @@ function makeAlert(text){
 	}
 }
 
+//JLF:Clean the planel of states
 function cleanHandleStatePanel() {
 	$("#headModal").html("");
 	$("#is").val("");
@@ -93,6 +97,7 @@ $("#menu-toggle").click(function(e) {
 	$("#wrapper").toggleClass("toggled");
 });
 
+//This creates a new state inside the tree of states
 function handleNewTask() { 
 	var txt;
 	var r = confirm("Do you want to create a new state?");
@@ -108,19 +113,14 @@ function handleNewTask() {
 
 function confirmState() {
 	hackWebGLKeyboard();
-	var state = {
-		type : "Init State",
-		st : [],
-		feedback : []
-	};
-	var clone = $("#stateModal").clone();
-	clone.attr('id', pos);
-	$("#modals").append(clone);
-	$("#" + pos + " #headModal").html("State " + pos);
-	$("ol").append(
-			"<li><a id='st" + pos + "' href='javascript:handleState(" + pos
-					+ ");' class='customfont' style='display: initial;'" + pos
-					+ "'>State " + pos + "</a></li>");
+	//var clone = $("#stateModal").clone();
+	//clone.attr('id', pos);
+	//$("#modals").append(clone);
+	//$("#" + pos + " #headModal").html("State " + pos);
+//	$("ol").append(
+//			"<li><a id='st" + pos + "' href='javascript:handleState(" + pos
+//					+ ");' class='customfont' style='display: initial;'" + pos
+//					+ "'>State " + pos + "</a></li>");
 	pos++;
 	$("#handlerStates").show();
 }
@@ -156,6 +156,7 @@ function GenerateState() {
 	SendMessage("Interface", "SaveTaskTip");
 }
 
+//JLF: This function i called by unity when it has the values inside the exercise
 function SaveBlob(jsonString) {
 	if (role == "teacher") {
 		if (newState == true) {
@@ -183,6 +184,7 @@ function SaveBlob(jsonString) {
 	}
 }
 
+//This cleans the whole workspace to re-generate the states tree again
 function ConfirmNewTask() {
 	var isHome = false;
 	var r = confirm("Are you sure you want to do it?");
@@ -193,9 +195,10 @@ function ConfirmNewTask() {
 		states= [];
 		pos = 1;
 		currentState = 0;
-		var clone = $("#fsChild").clone();
-		$("#lista").empty();
-		$("#lista").append(clone);
+//		No longer needed these lines with the new component
+//		var clone = $("#fsChild").clone();
+//		$("#lista").empty();
+//		$("#lista").append(clone);
 	}
 }
 
@@ -203,6 +206,7 @@ function LoadState(p) {
 	SendMessage("TaskManager", "LoadJsonString", states[p].st);
 }
 
+//JLF: Saves the tip file to use in student mode
 function saveStatesInterpreter(){
 	var myJsonString = JSON.stringify(states);
 	var blob = new Blob([myJsonString]);
@@ -231,7 +235,7 @@ function getUrlVars()
     }
     return vars;
 }
-
+//////////////////////////////////////////SECOND PART//////////////////////////////////////
 function loadStatesInterpreter() {
     var r = confirm("Are you sure you want to do it?");
     if (r == true) {

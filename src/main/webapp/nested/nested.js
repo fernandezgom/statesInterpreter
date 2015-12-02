@@ -8,7 +8,7 @@ angular.module("demo").controller("NestedListsDemoController",
 				selected : null,
 				templates : [ {
 					type : "state",
-					id : 2
+					id : 1
 				}, {
 					type : "fractions",
 					id : 1,
@@ -23,7 +23,7 @@ angular.module("demo").controller("NestedListsDemoController",
 				$scope.modelAsJson = angular.toJson(model, true);
 			}, true);
 			$scope.$watch('models.selected', function(model) {
-				makeAlert($scope.models.selected.type + " "+ $scope.models.selected.id);
+				makeAlert($scope.models.selected.id);
 			}, true);
 
 		});

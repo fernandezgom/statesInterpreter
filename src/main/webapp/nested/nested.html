@@ -11,6 +11,7 @@
             dnd-effect-allowed="move"
             dnd-moved="list.splice($index, 1)"
             dnd-selected="models.selected = state"
+            dnd-dragend="javascript:handleNewTask();"
             ng-class="{selected: models.selected === state}"
             ng-include="state.type + '.html'">
         </li>
