@@ -1,0 +1,60 @@
+#dialogoverlay{
+	display: none;
+	opacity: .6;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	background: #181818;
+	width: 100%;
+	z-index: 10;
+}
+#dialogbox{
+	display: none;
+	position: fixed;
+	background: #C8C8C8;
+	border-radius:7px; 
+	width:700px;
+	z-index: 10;
+}
+
+#dialogboxhead{ 
+       background: #C8C8C8;
+       border-radius:7px; 
+       font-size:14px;
+       padding:5px; 
+       color:#F00;
+       font-family: Verdana,Geneva,sans-serif; font-weight:bold;
+}
+
+#dialogboxbody{ 
+       background:#EAEBEC; 
+       color:#0275A4; 
+       //text-align: center;
+       font-family: Verdana,Geneva,sans-serif;
+       font-weight:bold;
+       height: 150px;
+       
+}
+
+#verticalSpanLeft{
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	height: 100% !important;
+	padding-left: 15px;
+	padding-right: 15px;
+
+}
+#verticalSpanRight{
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	height: 100% !important;
+	padding-right:25px;
+}
+
+#tableAlign
+{
+	height:100%;
+}
+

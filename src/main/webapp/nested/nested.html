@@ -11,19 +11,18 @@
             dnd-effect-allowed="move"
             dnd-moved="list.splice($index, 1)"
             dnd-selected="models.selected = state"
-            dnd-dragend="javascript:handleNewTask();"
             ng-class="{selected: models.selected === state}"
             ng-include="state.type + '.html'">
         </li>
     </ul>
 </script>
 
-<!-- This template is responsible for rendering a fractions element. It uses
-     the above list template to render each fractions column -->
-<script type="text/ng-template" id="fractions.html">
-    <div class="fractions-element box box-blue">
-        <h3>Fractions {{state.id}}</h3>
-        <div class="column" ng-repeat="list in state.columns" ng-include="'list.html'"></div>
+<!-- This template is responsible for rendering a rule element. It uses
+     the above list template to render each rule column -->
+<script type="text/ng-template" id="rule.html">
+    <div class="rule-element box box-blue">
+        <h3>rule {{state.id}}</h3>
+        <div class="column" ng-repeat="list in state.rules" ng-include="'list.html'"></div>
         <div class="clearfix"></div>
     </div>
 </script>
@@ -42,7 +41,7 @@
 						<!-- The toolbox only allows to copy objects, not move it. After a new
                  element was created, dnd-copied is invoked and we generate the next id -->
 						<li ng-repeat="state in models.templates" dnd-draggable="state"
-							dnd-effect-allowed="copy" dnd-copied="state.id = state.id + 1">
+							dnd-effect-allowed="copy" dnd-dragend="models.drop = state" dnd-copied="state.id = state.id + 1">
 							<button type="button" class="btn btn-default" style="width: 70px; height: 30px"
 								disabled="disabled">{{state.type}}</button>
 						</li>
@@ -77,12 +76,13 @@
 					</div>
 				</div>
 
-				<!-- 	<div view-source="nested" -->
-				<!-- 		highlight-lines="{markup: '1-18, 20-28, 40-42, 57-68, 78-82'}"></div> -->
-
-				<!-- 	<h2>Generated Model</h2> -->
-				<!-- 	<pre>{{modelAsJson}}</pre> -->
 			</div> <!-- Sidebar -->
 		</td>
 	</tr>
 </table>
+		<div style="padding-top: 200px; width : 1200px;">
+			<h2>Generated Model</h2>
+			<pre>{{modelAsJson}}</pre>
+		</div>
+<!-- 					<div view-source="nested" -->
+<!-- 						highlight-lines="{markup: '1-18, 20-28, 40-42, 57-68, 78-82'}"></div> -->

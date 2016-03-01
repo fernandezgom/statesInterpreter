@@ -1,0 +1,368 @@
+
+			#wrapper_dark_gray
+			{	
+				background-color: #c8c8c8;
+				-webkit-border-radius: 20px;
+				-moz-border-radius: 20px;
+				border-radius: 20px;
+				color:#e74c3c;
+				/*width: 1080px;*/
+				width: inherit;
+				margin-left: 5px;
+				margin-right: 5px;
+			}
+			
+			#wrapper_light_gray
+			{	
+				background-color: #eaebec;
+				-webkit-border-radius: 20px;
+				-moz-border-radius: 20px;
+				border-radius: 20px;
+				color: black;
+				/*width: 1060px;*/
+				width: inherit;
+				margin-top: 30px;
+				margin-left: 10px;
+				margin-right: 10px;
+
+			}
+			.back{
+				background-color: #0076a3;
+				letter-spacing: 0px;
+				font-family: Verdana, Geneva, sans-serif;
+				text-align: left;
+				text-decoration: none;
+			    }
+			    
+			 .background
+			    {	
+			    	width: intrinsic;           
+				width: -moz-max-content;   
+ 				width: -webkit-max-content; 
+			    	/*width: -moz-fit-content;*/
+			    	background-color: #fff;
+			    	height:1200px;
+			    }
+			
+			/*.paper {
+				margin: 0;
+			    display: block;
+			    font: 10pt Arial, sans-serif;    
+			    line-height: 20px;
+			    padding-top: 50px;
+			    padding-left: 10.5%;
+			    padding-right: 10.5%;
+			    text-align: justify;
+			}
+			.paper:first-line {
+			    font: 20pt Arial, sans-serif;
+			    line-height: 33px;
+			    vertical-align: baseline;
+			}
+			.paper:after {    
+			    content: '';
+			    display: block;
+			    width: 20px;
+			    height: 20px;
+			    border-radius: 10px;
+			    position: absolute;
+			    background: rgba(255,255,255,1);
+			    top: 40px;
+			    left: 2%;
+			    z-index: 10;
+			    -webkit-box-shadow: 
+			        inset 2px 2px 5px rgba(125,125,125,1),  
+			        2px 50.1em 5px rgba(255,255,255,1), 0px 50em rgba(125,125,125,.75),  
+			        2px 90.1em 5px rgba(255,255,255,1), 0px 90em rgba(125,125,125,.5),
+			        2px 130.1em 5px rgba(255,255,255,1), 0px 130em rgba(125,125,125,.25);
+			    -moz-box-shadow: 
+			        inset 2px 2px 5px rgba(125,125,125,1),  
+			        2px 50.1em 5px rgba(255,255,255,1), 0px 50em rgba(125,125,125,.75),  
+			        2px 90.1em 5px rgba(255,255,255,1), 0px 90em rgba(125,125,125,.5),
+			        2px 130.1em 5px rgba(255,255,255,1), 0px 130em rgba(125,125,125,.25);
+			    box-shadow: 
+			        inset 2px 2px 5px rgba(125,125,125,1),  
+			        2px 50.1em 5px rgba(255,255,255,1), 0px 50em rgba(125,125,125,.75),  
+			        2px 90.1em 5px rgba(255,255,255,1), 0px 90em rgba(125,125,125,.5),
+			        2px 130.1em 5px rgba(255,255,255,1), 0px 130em rgba(125,125,125,.25);
+			}
+			
+			.paper:focus {
+			    outline: none;
+			}*/
+			
+			
+			.it2lbutton  {
+				display: block;
+			  	background-color: #f05a49;
+			  	border-color: #f05a49;
+			  	color: #ffffff;
+			  	text-decoration: none;
+			  	line-height: 45px;
+			  	padding: 0 8px;
+			  	padding-top: 2px;
+				padding-bottom: 2px;
+			  	border-radius: 30px;
+			  	border: 1px solid #f05a49;
+			  	border-left: 8px solid #f05a49;
+			  	border-right: 8px solid #f05a49;
+			  	border-top: 3px solid #f05a49;
+				border-bottom: 3px solid #f05a49;
+			  	font-weight: bold;
+				-webkit-box-shadow: inset -1px 10px 5px -6px rgba(255, 255, 255, 0.5);
+				-moz-box-shadow:    inset -1px 10px 5px -6px rgba(255, 255, 255, 0.5);
+				box-shadow:         inset -1px 10px 5px -6px rgba(255, 255, 255, 0.5);
+			  	line-height: 24px;
+			  	display: inline-block;
+			  	font-size: 15px;
+			  	letter-spacing: 0px;
+			  	-moz-box-sizing: border-box;
+			  	box-sizing: border-box;
+			  	outline: none;
+			}
+			.it2lbutton:hover {
+				
+			  	background-color: #ff9e50;
+			  	border-color: #ff9e50;
+			  	border: 1px solid #ff9e50;
+				border-left: 8px solid #ff9e50;
+				border-right: 8px solid #ff9e50;
+				border-top: 3px solid #ff9e50;
+				border-bottom: 3px solid #ff9e50;
+				outline: none;
+			  	text-decoration: none;
+			}
+			
+			.it2lbutton:active  {
+				background-color: #ff9e50;
+				border-color: #ff9e50;
+				border: 1px solid #ff9e50;
+				border-left: 8px solid #ff9e50;
+				border-right: 8px solid #ff9e50;
+				border-top: 3px solid #ff9e50;
+				border-bottom: 3px solid #ff9e50;
+				padding-top: 0px;
+				padding-bottom: 0px;
+				outline: none;
+				-webkit-box-shadow: inset 1px -1px 6px 1px rgba(255, 255, 255, 0.5);
+				-moz-box-shadow:    inset 1px -1px 6px 1px rgba(255, 255, 255, 0.5);
+				box-shadow:         inset 1px -1px 6px 1px rgba(255, 255, 255, 0.5);
+			  	text-decoration: none;
+			}
+			
+			.it2lbutton:disabled {
+			   	background-color: rgba(255, 157, 82, 0.7f);
+				border-color: rgba(255, 157, 82, 0.7f);
+				border: 1px solid rgba(255, 157, 82, 0.7f);
+				border-left: 8px solid rgba(255, 157, 82, 0.7f);
+				border-right: 8px solid rgba(255, 157, 82, 0.7f);
+				border-top: 3px solid rgba(255, 157, 82, 0.7f);
+				border-bottom: 3px solid rgba(255, 157, 82, 0.7f);
+			    	color: rgba(222, 222, 222, 0.7f);
+			    	cursor: default;
+			}
+			
+			
+			.it2lNextbutton  {
+				background-image:url('../images/arrow-right.png');
+				background-repeat:no-repeat;
+				background-position:center center; 
+				background-color: #eaebec;
+				width:50px;
+				height:50px;
+				border: 0px;
+				outline: none;
+			}
+			.it2lNextbutton:hover {
+				background-image:url('../images/arrow-right_ov.png');
+				outline: none;
+				text-decoration: none;
+			}
+						
+			.it2lNextbutton:active  {
+				background-image:url('../images/arrow-right_dn.png');
+				outline: none;
+				text-decoration: none;
+			}
+			
+			.it2lNextbutton:disabled {
+				background-image:url('../images/arrow-right-disabled.png');
+			}
+			
+			.it2lNextbuttonON  {
+				background-image:url('../images/arrow-right.png');
+				background-repeat:no-repeat;
+				background-position:center center; 
+				background-color: #eaebec;
+				width:50px;
+				height:50px;
+				border: 0px;
+				outline: none;
+			}
+			.it2lNextbuttonON:hover {
+				background-image:url('../images/arrow-right_ov.png');
+				outline: none;
+				text-decoration: none;
+			}
+						
+			.it2lNextbuttonON:active  {
+				background-image:url('../images/arrow-right_dn.png');
+				outline: none;
+				text-decoration: none;
+			}
+			
+			.it2lNextbuttonOFF  {
+				background-image:url('../images/arrow-right-disabled.png');
+				background-repeat:no-repeat;
+				background-position:center center; 
+				background-color: #eaebec;
+				width:50px;
+				height:50px;
+				border: 0px;
+				outline: none;
+			}
+			.it2lNextbuttonOFF:hover {
+				background-image:url('../images/arrow-right_ov.png');
+				outline: none;
+				text-decoration: none;
+			}
+						
+			.it2lNextbuttonOFF:active  {
+				background-image:url('../images/arrow-right_dn.png');
+				outline: none;
+				text-decoration: none;
+			}
+		
+			
+			.it2lHelpbutton  {
+				background-image:url('../images/lightbulb_on.png');
+				background-repeat:no-repeat;
+				background-position:center center; 
+				background-color: #eaebec;
+				width:50px;
+				height:50px;
+				border: 0px;
+				outline: none;
+			}
+			.it2lHelpbutton:hover {
+				background-image:url('../images/lightbulb_on_ov.png');
+				outline: none;
+				text-decoration: none;
+			}
+
+			.it2lHelpbutton:active  {
+				background-image:url('../images/lightbulb_on_dn.png');
+				outline: none;
+				text-decoration: none;
+			}
+
+			.it2lHelpbutton:disabled {
+				background-image:url('../images/lightbulb_off.png');
+			}
+			
+			.it2lHelpbutton:disabled:hover {
+				background-image:url('../images/lightbulb_off_ov.png');
+			}
+			
+			.it2lHelpbuttonON  {
+				background-image:url('../images/lightbulb_on.png');
+				background-repeat:no-repeat;
+				background-position:center center; 
+				background-color: #eaebec;
+				width:50px;
+				height:50px;
+				border: 0px;
+				outline: none;
+			}
+			.it2lHelpbuttonON:hover {
+				background-image:url('../images/lightbulb_on_ov.png');
+				outline: none;
+				text-decoration: none;
+			}
+
+			.it2lHelpbuttonON:active  {
+				background-image:url('../images/lightbulb_on_dn.png');
+				outline: none;
+				text-decoration: none;
+			}
+			
+			.it2lHelpbuttonOFF  {
+				background-image:url('../images/lightbulb_off.png');
+				background-repeat:no-repeat;
+				background-position:center center; 
+				background-color: #eaebec;
+				width:50px;
+				height:50px;
+				border: 0px;
+				outline: none;
+			}
+			.it2lHelpbuttonOFF:hover {
+				background-image:url('../images/lightbulb_off_ov.png');
+				outline: none;
+				text-decoration: none;
+			}
+
+			.it2lHelpbuttonOFF:active  {
+				background-image:url('../images/lightbulb_off_dn.png');
+				outline: none;
+				text-decoration: none;
+			}
+
+			.it2lSoundOnbutton  {
+				background-image:url('../images/bt_sound_on.png');
+				background-repeat:no-repeat;
+				background-position:center center; 
+				background-color: #eaebec;
+				width:50px;
+				height:50px;
+				border: 0px;
+				outline: none;
+			}
+			.it2lSoundOnbutton:hover {
+				background-image:url('../images/bt_sound_on_ov.png');
+				outline: none;
+				text-decoration: none;
+			}
+
+			.it2lSoundOnbutton:active  {
+				background-image:url('../images/bt_sound_on_dn.png');
+				outline: none;
+				text-decoration: none;
+			}
+
+			.it2lSoundOffbutton  {
+				background-image:url('../images/bt_sound_off.png');
+				background-repeat:no-repeat;
+				background-position:center center; 
+				background-color: #eaebec;
+				width:50px;
+				height:50px;
+				border: 0px;
+				outline: none;
+			}
+			.it2lSoundOffbutton:hover {
+				background-image:url('../images/bt_sound_off_ov.png');
+				outline: none;
+				text-decoration: none;
+			}
+
+			.it2lSoundOffbutton:active  {
+				background-image:url('../images/bt_sound_off_dn.png');
+				outline: none;
+				text-decoration: none;
+			}
+			
+			
+			form {
+				margin-right:1cm;
+				margin-left:1cm;
+			}
+			
+			.mainContainer {
+			    background-color:#FFF5EE;
+			    width:815px;
+			    height:615px;
+			    margin-left: auto;
+			    margin-right: auto;
+			    visibility: visible;
+			}

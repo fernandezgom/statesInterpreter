@@ -29,6 +29,9 @@ a.customfont {
 
 <!-- Bootstrap Core CSS -->
 <link rel="stylesheet" href="framework/vendor/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/alertStyle.css">
+<link rel="stylesheet" href="css/irulestyles.css">
 <link rel="stylesheet" href="framework/vendor/bootstrap-theme.min.css">
 <link rel="stylesheet" href="framework/vendor/prism.css">
 <link rel="stylesheet" href="framework/demo-framework.css">
@@ -37,7 +40,13 @@ a.customfont {
 <!-- Custom CSS -->
 <link href="css/simple-sidebar.css" rel="stylesheet">
 </head>
-<body class="template" style="background-color: #f7ecc3; padding-top: 0px; padding-left: 25px;" ng-app="demo">
+<body class="template" style="background-color: #f7ecc3; padding-top: 0px; padding-left: 25px; width:1850px;" ng-app="demo">
+<div id="dialogoverlay"></div>
+<div id="dialogbox">
+<div>
+	<div id="dialogboxhead"></div>
+	</div>
+</div>
 	<input type="file" id="fileLoader" style="display: none;" />
 <!-- 	<div id="modals"></div> -->
 	<div style="background-color: #f7ecc3; width: 100%;">
@@ -58,10 +67,18 @@ a.customfont {
 <!-- 									id="gStateBT">Generate State</a></li> -->
 <!-- 							</ol> -->
 <!-- 						</div> -->
+						<form class="form-group" style="background-color: #f7ecc3; width: 320px; padding-top: 50px; padding-left: 5px;" id="taskFiller">
+							<label class="customfont">Task Name</label>
+							<input id="tName" type="text" class="form-control" placeholder="Enter task name" style="width: 310px;">
+							<label class="customfont">Task Description</label>
+							<input id="tDescription" type="text" class="form-control" placeholder="Enter task description" style="width: 310px;">
+						</form>
 						<div style="background-color: #f7ecc3; height: 100%; width: 320px; padding-top: 50px; padding-left: 5px;"
 							valign="top" align="left">
-       						 <div ng-view></div>
-    					</div>
+							<div id="lista">
+								<div ng-view></div>
+							</div>
+						</div>
 					</div>
 				</td>
 				<td
@@ -91,6 +108,15 @@ a.customfont {
 														style="display: initial; margin-right: 5px; margin-bottom: 5px;"
 														class="customfont">Load States Interpreter </a>
 												</p>
+											</div>
+											<div id="exercisePrompt" style=" padding-left: 6px;text-align: left;"> 
+											        <table id="taskContainer" align="center">
+														<tr>
+															<td>
+																<span style="font-size:25px; color: #0076a3; font-weight: normal;" id="task1" align="center"> </span>
+															</td>
+														</tr>
+													</table>
 											</div>
 											<canvas class="emscripten" id="canvas"
 												oncontextmenu="event.preventDefault()" height="600px"
@@ -147,10 +173,11 @@ a.customfont {
 												<div class="col-sm-offset-2 col-sm-10"
 													style="margin-left: 5%; width: 49%;">
 													<label class="checkbox"><input id="cb1"
-														type="checkbox"> Exact </label> <label class="checkbox"><input
+														type="checkbox"> Exact </label> 
+														<!--<label class="checkbox"><input
 														id="cb2" type="checkbox"> Include state object </label> <label
 														class="checkbox"><input id="cb3" type="checkbox">
-														Server Based URL</label>
+														Server Based URL</label>-->
 												</div>
 												<!-- 							<input type="text" class="form-control" id="url" -->
 												<!-- 								style="width: 100px;"> -->
@@ -158,10 +185,10 @@ a.customfont {
 										</form>
 									</div>
 									<div class="modal-footer">
-										<a href="javascript:removeButtonHandler();"
-											class="btn btn-default"><span
-											class="glyphicon glyphicon-remove"></span></a> <a
-											href="javascript:saveButtonHandler();"
+<!-- 										<a href="javascript:removeButtonHandler();" -->
+<!-- 											class="btn btn-default"><span -->
+<!-- 											class="glyphicon glyphicon-remove"></span></a>  -->
+										<a	href="javascript:saveButtonHandler();"
 											class="btn btn-default"><span
 											class="glyphicon glyphicon-save"></span></a>
 									</div>
@@ -183,6 +210,8 @@ a.customfont {
 		<!-- Bootstrap Core JavaScript -->
 		<script src="js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="js/statesInterpreter.js"></script>
+		<script type="text/javascript" src="js/irulealert.js"></script>
+		<script type="text/javascript" src="js/support.js"></script>
 		<script type="text/javascript" src="js/knear.js"></script>
 		<!-- Menu Toggle Script -->
 		<script type='text/javascript'>
@@ -510,6 +539,6 @@ a.customfont {
 				};
 				codeXHR.send(null);
 			}
-		</script>
+		</script>		
 </body>
 </html>
