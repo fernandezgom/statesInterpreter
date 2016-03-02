@@ -40,7 +40,7 @@ $(document).ready(function() {
 			 states = JSON.parse(contents);
 			 Alert.render("Support started");
 			 $("#task1").html(states.tdescription);
-			 var support= new Support(states);
+			 var support= new Support(states.tip[0].rules,1);
 			 setInterval(function(){support.startSupport()},5000);
 		  }
 		  r.readAsText(f);

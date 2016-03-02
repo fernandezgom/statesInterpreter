@@ -1,28 +1,30 @@
-function Support(st) {
+function Support(st, rl) {
 	
 	this.states = st;
-
+	this.rule=rl;
+	this.previousModel;
 }	
 	
 	Support.prototype.startSupport = function(){
+		this.previousModel=currentModel;
 		GenerateState();
 		//alert(this.states.toSource());
-		var distances=this.calculateEuclideanDistances(currentModel);
-		if (distances.length>0) {
-			this.getEuclideanSupport(distances);
+		if (currentModel.initial_model.length==this.rule) {
+			var distances=this.calculateEuclideanDistances(currentModel);
+			if (distances.length>0) {
+				this.getEuclideanSupport(distances);
+			}
 		}
 	};
 	
-	Support.prototype.calculateEuclideanDistances= function(cm) {
+	Support.prototype.calculateEuclideanDistancesBasedOnRule= function(cm) {
 		var comparator=[];
-		//alert(this.states.tip[0].rules.toSource());
-		//alert(cm.toSource());
-		for(var i = 0; i < this.states.length; i++) {
+		if (cm.initial_model.length==this.rule) {
 			var distances=[];
 			for(var k = 0; k < cm.initial_model.length; k++){
 				var dist=[];
-				for (var j = 0; j < this.states[i].stObject.initial_model.length; j++){ //Comparamos cada estado con el del usuario
-					cmp=(cm.initial_model[k].numerator/cm.initial_model[k].denominator)-(this.states[i].stObject.initial_model[j].numerator/this.states[i].stObject.initial_model[j].denominator)
+				for (var j = 0; j < this.states[0][j].stObject.initial_model.length; j++){ //Comparamos cada estado con el del usuario
+					cmp=(cm.initial_model[k].numerator/cm.initial_model[k].denominator)-(this.states[0][j].stObject.initial_model[j].numerator/this.states[i].stObject.initial_model[j].denominator)
 					dist.push(cmp);
 				}
 				distances.push(averageDistances(dist));
@@ -33,6 +35,37 @@ function Support(st) {
 						distance: distances
 					};
 				comparator.push(distFinal);
+			}
+			
+			
+		}
+			
+		return comparator;
+	}
+	
+	Support.prototype.calculateEuclideanDistances= function(cm) {
+		var comparator=[];
+		//alert(this.states.tip[0].rules.toSource());
+		//alert(cm.toSource());
+		if (cm.initial_model.length==this.rule) {
+			//alert(this.states[0].length);
+			for(var i = 0; i < this.states[0].length; i++) {
+				var distances=[];
+				for(var k = 0; k < cm.initial_model.length; k++){
+					var dist=[];
+					for (var j = 0; j < this.states[0][i].stObject.initial_model.length; j++){ //Comparamos cada estado con el del usuario
+						cmp=(cm.initial_model[k].numerator/cm.initial_model[k].denominator)-(this.states[0][i].stObject.initial_model[j].numerator/this.states[0][i].stObject.initial_model[j].denominator)
+						dist.push(cmp);
+					}
+					distances.push(this.averageDistances(dist));
+				}
+				if (distances.length > 0) {
+					var distFinal={
+							state : i,
+							distance: distances
+						};
+					comparator.push(distFinal);
+				}
 			}
 		}
 		return comparator;
@@ -53,11 +86,38 @@ function Support(st) {
 			}
 		}
 		if (sAux !=null){ //Devuelve el socratic feedback del estado mas cercano
-			if (this.states[sAux].fState==true && fin==0) { //At the moment only shows the final exact state
-				Alert.render(this.states[sAux].socratic);
+			if (this.states[0][sAux].fState==true && fin==0) { //At the moment only shows the final exact state
+				if (!this.isEmpty(this.states[0][sAux].socratic))
+					Alert.render(this.states[0][sAux].socratic);
+				else {
+					Alert.render("Well done! You finished the exercise");
+				}
+			} else if (fin == 0){
+				if (!this.isEmpty(this.states[0][sAux].guidance))
+					Alert.render(this.states[0][sAux].guidance);
+				else {
+					Alert.render("The teacher should provide Guidance feedback for: state "+ sAux+" in rule"+ this.rule);
+				}
+			} else if (this.previousModel.initial_model.length!=this.rule) {
+				if (!this.isEmpty(this.states[0][sAux].didactic))
+					Alert.render(this.states[0][sAux].didactic);
+				else {
+					Alert.render("The teacher should provide Didactic feedbackfor: state "+ sAux+" in rule"+ this.rule);
+				}
+			} else {
+				if (!this.isEmpty(this.states[0][sAux].socratic))
+					Alert.render(this.states[0][sAux].socratic);
+				else {
+					Alert.render("The teacher should provide Socratic feedbackfor: state "+ sAux+" in rule"+ this.rule);
+				}
 			}	
 		}	
 	};
+	
+	Support.prototype.isEmpty= function(str) {
+		return (!str || 0 === str.length);
+		
+	}
 	
 		//Calculate Hamming distance using 2 strings
 	Support.prototype.naiveHammerDistance= function(str1, str2) {
