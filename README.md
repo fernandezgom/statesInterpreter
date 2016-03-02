@@ -4,11 +4,11 @@ The making rules interface was properly designed considering a good interaction 
 
 To run the project execute the following command:
 
-mvn tomcat:run
+mvn tomcat:run (It is required to have Java and Maven3 previously installed)
 
 Student Mode URL:
 http://localhost:8080/FractionsLab?role=user&user=undefined&originator=undefined
 
 Teacher Mode URL:
-http://localhost:8080/FractionsLab?role=user&user=undefined&originator=undefined
+http://localhost:8080/FractionsLab?role=teacher&user=undefined&originator=undefined
 

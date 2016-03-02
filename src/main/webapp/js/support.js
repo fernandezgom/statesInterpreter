@@ -96,19 +96,19 @@ function Support(st, rl) {
 				if (!this.isEmpty(this.states[0][sAux].guidance))
 					Alert.render(this.states[0][sAux].guidance);
 				else {
-					Alert.render("The teacher should provide Guidance feedback for: state "+ sAux+" in rule"+ this.rule);
+					Alert.render("The teacher should provide Guidance feedback for: state "+ sAux+" in rule "+ this.rule);
 				}
 			} else if (this.previousModel.initial_model.length!=this.rule) {
 				if (!this.isEmpty(this.states[0][sAux].didactic))
 					Alert.render(this.states[0][sAux].didactic);
 				else {
-					Alert.render("The teacher should provide Didactic feedbackfor: state "+ sAux+" in rule"+ this.rule);
+					Alert.render("The teacher should provide Didactic feedback for: state "+ sAux+" in rule "+ this.rule);
 				}
 			} else {
 				if (!this.isEmpty(this.states[0][sAux].socratic))
 					Alert.render(this.states[0][sAux].socratic);
 				else {
-					Alert.render("The teacher should provide Socratic feedbackfor: state "+ sAux+" in rule"+ this.rule);
+					Alert.render("The teacher should provide Socratic feedback for: state "+ sAux+" in rule "+ this.rule);
 				}
 			}	
 		}	

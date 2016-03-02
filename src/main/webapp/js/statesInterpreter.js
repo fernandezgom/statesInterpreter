@@ -40,8 +40,15 @@ $(document).ready(function() {
 			 states = JSON.parse(contents);
 			 Alert.render("Support started");
 			 $("#task1").html(states.tdescription);
-			 var support= new Support(states.tip[0].rules,1);
-			 setInterval(function(){support.startSupport()},5000);
+			 var allSupport=[];
+			 for(var i = 0; i < states.tip.length; i++) {
+				 allSupport[i]=new Support(states.tip[i].rules,i+1);;
+			 }
+			 //JLF:Fix this patch
+			 setInterval(function(){allSupport[0].startSupport()},5000);
+			 setInterval(function(){allSupport[1].startSupport()},5000);
+			 //var support= new Support(states.tip[0].rules,1);
+			 //setInterval(function(){support.startSupport()},5000);
 		  }
 		  r.readAsText(f);
 		}
