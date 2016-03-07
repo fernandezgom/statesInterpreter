@@ -1,545 +1,94 @@
-<!doctype html>
-<html lang="en-us">
+<!DOCTYPE HTML>
+
+<html>
 <head>
-<meta charset="utf-8">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>FractionsLab</title>
-<!-- Update the title -->
-<link rel="stylesheet" href="TemplateData/myStyle.css">
-<style type="text/css">
-@font-face {
-	font-family: "My Custom Font";
-	src: url('font/Dmitry Rastvortsev - DR Agu.ttf') format("truetype");
-}
+<title>Fractions Lab - Home</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+<link rel="stylesheet" href="css/main.css" />
+<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 
-a.customfont {
-	font-family: "My Custom Font", Verdana, Tahoma;
-}
-</style>
-<link rel="shortcut icon" href="TemplateData/favicon.png" />
-<script src="TemplateData/UnityProgress.js"></script>
-<script src="Release/UnityConfig.js"></script>
-<script	src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
-<script type="text/javascript" src="js/angular-drag-and-drop-lists.js"></script>
-<script	src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-route.min.js"></script>
-<script src="framework/vendor/prism.js"></script>
-<script src="framework/demo-framework.js"></script>
-<script src="framework/view-source.js"></script>
-<script src="nested/nested.js"></script>
+<script>
+	(function(i, s, o, g, r, a, m) {
+		i['GoogleAnalyticsObject'] = r;
+		i[r] = i[r] || function() {
+			(i[r].q = i[r].q || []).push(arguments)
+		}, i[r].l = 1 * new Date();
+		a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+		a.async = 1;
+		a.src = g;
+		m.parentNode.insertBefore(a, m)
+	})(window, document, 'script', '//www.google-analytics.com/analytics.js',
+			'ga');
 
-<!-- Bootstrap Core CSS -->
-<link rel="stylesheet" href="framework/vendor/bootstrap.min.css">
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet" href="css/alertStyle.css">
-<link rel="stylesheet" href="css/irulestyles.css">
-<link rel="stylesheet" href="framework/vendor/bootstrap-theme.min.css">
-<link rel="stylesheet" href="framework/vendor/prism.css">
-<link rel="stylesheet" href="framework/demo-framework.css">
-<link rel="stylesheet" type="text/css" href="nested/nested.css" />
-
-<!-- Custom CSS -->
-<link href="css/simple-sidebar.css" rel="stylesheet">
+	ga('create', 'UA-66178613-1', 'auto');
+	ga('send', 'pageview');
+</script>
 </head>
-<body class="template" style="background-color: #f7ecc3; padding-top: 0px; padding-left: 25px; width:1850px;" ng-app="demo">
-<div id="dialogoverlay"></div>
-<div id="dialogbox">
-<div>
-	<div id="dialogboxhead"></div>
+<body class="homepage">
+
+
+
+	<script>
+		function GetUrlValue(VarSearch) {
+			var SearchString = window.location.search.substring(1);
+			var VariableArray = SearchString.split('&');
+			for (var i = 0; i < VariableArray.length; i++) {
+				var KeyValuePair = VariableArray[i].split('=');
+				if (KeyValuePair[0] == VarSearch) {
+					return KeyValuePair[1];
+				}
+			}
+		}
+		var usr = GetUrlValue('user');
+		var org = GetUrlValue('originator');
+	</script>
+
+
+	<div id="page-wrapper">
+
+		<!-- Header -->
+		<div id="header-wrapper">
+			<div id="header">
+
+				<!-- Logo -->
+				<img width="600" src="images/logo_trim2.png"></img>
+				<!-- Nav -->
+				<nav id="nav">
+					<ul>
+						<li class="current2"><a
+							href="./main.html?role=teacher"
+							onclick="location.href=this.href+'&user='+usr+'&originator='+org;return false;"
+							target="_blank">Teacher Launch</a></li>
+						<li class="current3"><a
+							href="./main.html?role=student"
+							target="_blank"
+							onclick="location.href=this.href+'&user='+usr+'&originator='+org;return false;">Student
+								Launch</a></li>
+						<br />
+						<p>(Compatible with Firefox and Chrome browsers)</p>
+					</ul>
+
+				</nav>
+				<hr />
+			</div>
+		</div>
+
+
+
+		<!-- Footer -->
+
 	</div>
-</div>
-	<input type="file" id="fileLoader" style="display: none;" />
-<!-- 	<div id="modals"></div> -->
-	<div style="background-color: #f7ecc3; width: 100%;">
-		<table style="background-color: #f7ecc3; height: 100%; width: 100%;">
-			<tr>
-				<td
-					style="background-color: #f7ecc3; height: 100%; width: 150px; padding-top: 0px; padding-left: 0px;"
-					valign="top" align="left">
-					<div style="background-color: #f7ecc3;">
-						<!-- Sidebar -->
-<!-- 						<div class="template-wrap clear" -->
-<!-- 							style="background-color: #f7ecc3; width: 150px;"> -->
-<!-- 							<ol id="lista" -->
-<!-- 								style="list-style-type: none; width: 150px; padding-left: 20px;""> -->
-<!-- 								<li id="fsChild"><a href="javascript:handleNewTask();" -->
-<!-- 									class="customfont" -->
-<!-- 									style="display: initial; margin-right: 5px; margin-bottom: 5px; font-size: 15pt;" -->
-<!-- 									id="gStateBT">Generate State</a></li> -->
-<!-- 							</ol> -->
-<!-- 						</div> -->
-						<form class="form-group" style="background-color: #f7ecc3; width: 320px; padding-top: 50px; padding-left: 5px;" id="taskFiller">
-							<label class="customfont">Task Name</label>
-							<input id="tName" type="text" class="form-control" placeholder="Enter task name" style="width: 310px;">
-							<label class="customfont">Task Description</label>
-							<input id="tDescription" type="text" class="form-control" placeholder="Enter task description" style="width: 310px;">
-						</form>
-						<div style="background-color: #f7ecc3; height: 100%; width: 320px; padding-top: 50px; padding-left: 5px;"
-							valign="top" align="left">
-							<div id="lista">
-								<div ng-view></div>
-							</div>
-						</div>
-					</div>
-				</td>
-				<td
-					style="background-color: #f7ecc3; height: 100%; padding-top: 5px;"
-					valign="top">
-					<div>
-						<div class="template-wrap clear"
-							style="background-color: #f7ecc3;">
-							<table style="margin-left: auto; margin-right: auto;">
-								<tr>
-									<td>
-										<div>
-											<div id="fakebar"
-												style="background-color: #ffffff; display: flex; height: 30px;"></div>
-											<div id="bar"
-												style="background-color: #f7ecc3; padding-left: 35px; padding-top: 5px; display: none;">
-												<p class="bar">
-													<a href="javascript:ConfirmNewTask();" id="new"
-														style="display: initial; margin-right: 5px; margin-bottom: 5px;"
-														class="customfont">New </a> | <a
-														href="javascript:saveStatesInterpreter();"
-														id="saveInterpreter"
-														style="display: initial; margin-right: 5px; margin-bottom: 5px;"
-														class="customfont">Save States Interpreter </a> <a
-														href="javascript:loadStatesInterpreter();"
-														id="loadInterpreter"
-														style="display: initial; margin-right: 5px; margin-bottom: 5px;"
-														class="customfont">Load States Interpreter </a>
-												</p>
-											</div>
-											<div id="exercisePrompt" style=" padding-left: 6px;text-align: left;"> 
-											        <table id="taskContainer" align="center">
-														<tr>
-															<td>
-																<span style="font-size:25px; color: #0076a3; font-weight: normal;" id="task1" align="center"> </span>
-															</td>
-														</tr>
-													</table>
-											</div>
-											<canvas class="emscripten" id="canvas"
-												oncontextmenu="event.preventDefault()" height="600px"
-												width="800px"></canvas>
-										</div>
-									</td>
-								</tr>
-							</table>
-						</div>
-					</div>
-					</div>
-				<td
-					style="background-color: #f7ecc3; height: 100%; width: 100%; padding-top: 50px;"
-					valign="top">
-					<div style="background-color: #f7ecc3;" id="handlerStates">
-						<div>
-							<div>
-								<div>
-									<div class="modal-header">
-										<h4 class="modal-title" id="headModal"></h4>
-										<div align="right">
-											<label class="checkbox-inline"> <input
-												type="checkbox" id="cbState" value="">Final State
-											</label>
-										</div>
-									</div>
-									<div class="modal-body">
-										<form class="form-horizontal" role="form">
-											<div class="form-group">
-												<h4 class="modal-title">Feedback</h4>
-											</div>
-											<div class="form-group">
-												<label class="control-label col-sm-2" for="socratic">Socratic</label>
-												<div class="col-sm-10" style="overflow: hidden;">
-													<input id="is" type="text" class="form-control"
-														id="socratic" placeholder="Enter feedback">
-												</div>
-											</div>
-											<div class="form-group">
-												<label class="control-label col-sm-2" for="guidance">Guidance</label>
-												<div class="col-sm-10">
-													<input id="ig" type="text" class="form-control"
-														id="guidance" placeholder="Enter feedback">
-												</div>
-											</div>
-											<div class="form-group">
-												<label class="control-label col-sm-2" for="didactic">Didactic</label>
-												<div class="col-sm-10">
-													<input id="idi" type="text" class="form-control"
-														id="didactic" placeholder="Enter feedback">
-												</div>
-											</div>
-											<div class="form-horizontal" style="text-align: left;">
-												<div class="col-sm-offset-2 col-sm-10"
-													style="margin-left: 5%; width: 49%;">
-													<label class="checkbox"><input id="cb1"
-														type="checkbox"> Exact </label> 
-														<!--<label class="checkbox"><input
-														id="cb2" type="checkbox"> Include state object </label> <label
-														class="checkbox"><input id="cb3" type="checkbox">
-														Server Based URL</label>-->
-												</div>
-												<!-- 							<input type="text" class="form-control" id="url" -->
-												<!-- 								style="width: 100px;"> -->
-											</div>
-										</form>
-									</div>
-									<div class="modal-footer">
-<!-- 										<a href="javascript:removeButtonHandler();" -->
-<!-- 											class="btn btn-default"><span -->
-<!-- 											class="glyphicon glyphicon-remove"></span></a>  -->
-										<a	href="javascript:saveButtonHandler();"
-											class="btn btn-default"><span
-											class="glyphicon glyphicon-save"></span></a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</td>
-			</tr>
-		</table>
-		<!-- /#wrapper -->
-		<script src="js/FileSaver.min.js"></script>
-		<script src="js/canvas-toBlob.js"></script>
-		<script src="js/Blob.js"></script>
-		<script language="JavaScript" type="text/javascript"
-			src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-		<script language="JavaScript" type="text/javascript" src="js/guest.js"></script>
-		<script src="js/jquery.js"></script>
-		<!-- Bootstrap Core JavaScript -->
-		<script src="js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="js/statesInterpreter.js"></script>
-		<script type="text/javascript" src="js/irulealert.js"></script>
-		<script type="text/javascript" src="js/support.js"></script>
-		<script type="text/javascript" src="js/extendedsupport.js"></script>
-		<script type="text/javascript" src="js/knear.js"></script>
-		<!-- Menu Toggle Script -->
-		<script type='text/javascript'>
-			var externalEventAddress = "";
-			//var sFinalState = document.getElementById("saveFinalState");
-			//sFinalState.style.visibility="hidden";
 
-			function ConfirmLoadTask() {
-				var r = confirm("Are you sure you want to do it?");
-				if (r == true) {
-					openfileDialog();
-				}
-			}
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.dropotron.min.js"></script>
+	<script src="assets/js/skel.min.js"></script>
+	<script src="assets/js/skel-viewport.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+	<script src="assets/js/main.js"></script>
 
-			function ShowFileButtons() {
-				SendMessage("ExternalInterface", "SetServiceURL",
-						externalEventAddress);
-				var bar1 = document.getElementById("fakebar");
-				bar1.style.display = 'none';
-				var bar2 = document.getElementById("bar");
-				var isOpera = !!window.opera
-						|| navigator.userAgent.indexOf(' OPR/') >= 0;
-				if ((typeof InstallTrigger !== 'undefined')
-						|| (!!window.chrome && !isOpera))
-					bar2.style.display = 'flex';
-				else if (Object.prototype.toString.call(window.HTMLElement)
-						.indexOf('Constructor') > 0)
-					bar2.style.display = '-webkit-box';
-				firstFrame();
-			}
-
-			function HideSave() {
-				//var barSav = document.getElementById("save");
-				//barSav.style.display = 'none';
-			}
-
-			function SaveBlob2(jsonString) {
-				var blob = new Blob([ jsonString ]);
-				if (Object.prototype.toString.call(window.HTMLElement).indexOf(
-						'Constructor') > 0) {
-					uriContent = "data:attachment/csv;charset=utf-8,"
-							+ encodeURI(jsonString);
-					var downloadLink = document.createElement("a");
-					downloadLink.href = uriContent;
-					downloadLink.download = "task.tip";
-					document.body.appendChild(downloadLink);
-					downloadLink.click();
-					document.body.removeChild(downloadLink);
-				} else
-					saveAs(blob, "task.tip");
-			}
-
-			function SendSaveMsgFL() {
-				SendMessage("Interface", "SaveTaskTip");
-			}
-
-			function SaveState() {
-				var svState = document.getElementById("saveState");
-				var svFinalState = document.getElementById("saveFinalState");
-				svState.innerHTML = "&nbsp; Save State"
-				svFinalState.style.visibility = "visible";
-				SendMessage("Interface", "SaveState");
-			}
-
-			function SaveFinalState() {
-				SendMessage("Interface", "SaveFinalState");
-			}
-
-			function openfileDialog() {
-				document.getElementById("fileLoader").click();
-			}
-
-			function SnapAllert() {
-				var r = confirm("Are you sure you want to do it?");
-				if (r == true) {
-
-					window.open('data:attachment/csv;charset=utf-8,'
-							+ encodeURI('prova'));
-				}
-			}
-
-			function capture(bts) {
-				if (Object.prototype.toString.call(window.HTMLElement).indexOf(
-						'Constructor') > 0) {
-					Content = "data:attachment/csv;charset=utf-8,"
-							+ encodeURI("prova");
-					var downloadLink = document.createElement("a");
-					downloadLink.href = uriContent;
-					downloadLink.download = "task.tip";
-
-					document.body.appendChild(downloadLink);
-					downloadLink.click();
-					document.body.removeChild(downloadLink);
-				} else {
-					var ar = base64ToArrayBuffer(bts);
-					var blob = new Blob([ ar ]);
-					saveAs(blob, "snapshot.png");
-				}
-			}
-
-			function base64ToArrayBuffer(base64) {
-				var binary_string = window.atob(base64);
-				var len = binary_string.length;
-				var bytes = new Uint8Array(len);
-				for (var i = 0; i < len; i++) {
-					bytes[i] = binary_string.charCodeAt(i);
-				}
-				return bytes.buffer;
-			}
-
-			function ChangeCanvas(dim) {
-				console.log(dim);
-				SendMessage("Workspace", "ChangeScreenSize", dim);
-			}
-
-			function EventTracking(msg) {
-				updateHandler(msg);
-			}
-
-			function SendTask() {
-				SendMessage(
-						"TaskManager",
-						"LoadJsonString",
-						"{\"initial_model\": [{\"name\": \"hrect_1\", \"numerator\": 3, \"denominator\": 5, \"partition\": 1, \"state\": \"Fraction\", \"mode\": \"Changing\", \"parentRef\": null, \"parentEqRef\": null, \"type\": \"HRect\", \"position\": {\"x\": -0.1682029, \"y\": 0.2669984}, \"color\": \"red\"}], \"initial_configuration\": [{\"item\": \"lab\", \"active\": true}, {\"item\": \"lines\", \"active\": true}, {\"item\": \"rectangles\", \"active\": true}, {\"item\": \"sets\", \"active\": true}, {\"item\": \"liquids\", \"active\": true}, {\"item\": \"change_color\", \"active\": true}, {\"item\": \"copy\", \"active\": true}, {\"item\": \"find_equivalence\", \"active\": true}, {\"item\": \"find_parent\", \"active\": true}, {\"item\": \"highlight\", \"active\": true}, {\"item\": \"add\", \"active\": true}, {\"item\": \"subtract\", \"active\": true}], \"extra_information\": {}, \"task_description\": {\"id\": null, \"title\": null, \"desctiption\": null, \"showAtStartup\": \"false\"}}");
-			}
-		</script>
-		<script type='text/javascript'>
-			// connect to canvas
-			var Module = {
-				filePackagePrefixURL : "Release/",
-				memoryInitializerPrefixURL : "Release/",
-				preRun : [],
-				postRun : [],
-				print : (function() {
-					return function(text) {
-						console.log(text);
-					};
-				})(),
-				printErr : function(text) {
-					console.error(text);
-				},
-				canvas : document.getElementById('canvas'),
-				progress : null,
-				setStatus : function(text) {
-					if (this.progress == null) {
-						if (typeof UnityProgress != 'function')
-							return;
-						this.progress = new UnityProgress(canvas, { //customize logo and loading bars here
-							logoimage : "TemplateData/progresslogo.png",
-							progressframeimage : "TemplateData/loadingbar.png",
-							progressbarimage : "TemplateData/fullbar.png",
-							backgroundcolor : "4D4D4D",
-						});
-					}
-					if (!Module.setStatus.last)
-						Module.setStatus.last = {
-							time : Date.now(),
-							text : ''
-						};
-					if (text === Module.setStatus.text)
-						return;
-					this.progress.SetMessage(text);
-					var m = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
-					if (m)
-						this.progress.SetProgress(parseInt(m[2])
-								/ parseInt(m[4]));
-					if (text === "")
-						this.progress.Clear()
-				},
-				totalDependencies : 0,
-				monitorRunDependencies : function(left) {
-					this.totalDependencies = Math.max(this.totalDependencies,
-							left);
-					Module.setStatus(left ? 'Preparing... ('
-							+ (this.totalDependencies - left) + '/'
-							+ this.totalDependencies + ')'
-							: 'All downloads complete.');
-				}
-			};
-			Module.setStatus('Downloading (0.0/1)');
-
-			var myHeight = 600;
-			var myWidth = 800;
-			var loadComplete = false;
-			OnLoaded(); //You can fire this from inside after the canvas gets started
-
-			function OnLoaded() {
-
-				reportSize();
-				if (myWidth >= 800) {
-					document.getElementById('canvas').style.width = myWidth
-							+ 'px';
-					document.getElementById('canvas').style.height = myHeight
-							+ 'px';
-				}
-
-				window.onresize = function() {
-					if (loadComplete) {
-						reportSize();
-						if (myWidth >= 800 || myHeight >= 600) {
-							ChangeCanvas(myWidth + '/' + myHeight);
-							document.getElementById('canvas').style.width = myWidth
-									+ 'px';
-							document.getElementById('canvas').style.height = myHeight
-									+ 'px';
-						}
-					}
-				}
-			}
-
-			function firstFrame() {
-				loadComplete = true;
-				reportSize();
-				if (myWidth >= 800 || myHeight >= 600) {
-					ChangeCanvas(myWidth + '/' + myHeight);
-					document.getElementById('canvas').style.width = myWidth
-							+ 'px';
-					document.getElementById('canvas').style.height = myHeight
-							+ 'px';
-				}
-			}
-
-			function reportSize() {
-				var scaleFactor;
-				myWidth = 0;
-				myHeight = 0;
-				var widthSf = 950;
-				var heightSf = 713;
-				if (typeof (window.innerWidth) == 'number') {
-					//Non-IE
-					if (window.innerWidth <= window.innerHeight) {
-						scaleFactor = window.innerWidth / widthSf;
-					} else {
-						scaleFactor = window.innerHeight / heightSf;
-					}
-					myWidth = 800 * scaleFactor;
-					myHeight = 600 * scaleFactor;
-				} else {
-					if (document.documentElement
-							&& (document.documentElement.clientWidth || document.documentElement.clientHeight)) {
-						//IE 6+ in standards compliant mode
-						if (document.documentElement.clientWidth <= document.documentElement.clientHeight) {
-							scaleFactor = document.documentElement.clientWidth
-									/ widthSf;
-						} else {
-							scaleFactor = document.documentElement.clientHeight
-									/ heightSf;
-						}
-						myWidth = 800 * scaleFactor;
-						myHeight = 600 * scaleFactor;
-					} else {
-						if (document.body
-								&& (document.body.clientWidth || document.body.clientHeight)) {
-							//IE 4 compatible
-							if (document.body.clientWidth <= document.body.clientHeight) {
-								scaleFactor = document.body.clientWidth
-										/ widthSf;
-							} else {
-								scaleFactor = document.body.clientHeight
-										/ heightSf;
-							}
-							myWidth = 800 * scaleFactor;
-							myHeight = 600 * scaleFactor;
-
-						}
-					}
-				}
-			}
-		</script>
-		<script src="Release/fileloader.js"></script>
-		<script>
-			if (!(!Math.fround)) {
-				var script = document.createElement('script');
-				script.src = "Release/FractionsLab.js";
-				document.body.appendChild(script);
-			} else {
-				var codeXHR = new XMLHttpRequest();
-				codeXHR.open('GET', 'Release/FractionsLab.js', true);
-				codeXHR.onload = function() {
-					var code = codeXHR.responseText;
-					if (!Math.fround) {
-						try {
-							console.log('optimizing out Math.fround calls');
-							var m = /var ([^=]+)=global\.Math\.fround;/
-									.exec(code);
-							var minified = m[1];
-							if (!minified)
-								throw 'fail';
-							var startAsm = code
-									.indexOf('// EMSCRIPTEN_START_FUNCS');
-							var endAsm = code
-									.indexOf('// EMSCRIPTEN_END_FUNCS');
-							var asm = code.substring(startAsm, endAsm);
-							do {
-								var moar = false; // we need to re-do, as x(x( will not be fixed
-								asm = asm.replace(
-										new RegExp('[^a-zA-Z0-9\\$\\_]'
-												+ minified + '\\(', 'g'),
-										function(s) {
-											moar = true;
-											return s[0] + '('
-										});
-							} while (moar);
-							code = code.substring(0, startAsm) + asm
-									+ code.substring(endAsm);
-							code = code.replace("'use asm'", "'almost asm'");
-						} catch (e) {
-							console
-									.log('failed to optimize out Math.fround calls '
-											+ e)
-						}
-					}
-
-					var blob = new Blob([ code ], {
-						type : 'text/javascript'
-					});
-					codeXHR = null;
-					var src = URL.createObjectURL(blob);
-					var script = document.createElement('script');
-					script.src = URL.createObjectURL(blob);
-					script.onload = function() {
-						URL.revokeObjectURL(script.src);
-					};
-					document.body.appendChild(script);
-				};
-				codeXHR.send(null);
-			}
-		</script>		
 </body>
 </html>
