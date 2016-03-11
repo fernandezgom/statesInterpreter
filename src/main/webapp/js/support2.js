@@ -6,26 +6,15 @@ function Support(st, rl) {
 }	
 	
 	Support.prototype.startSupport = function(){
-		var points=this.calculatePoints();
-		//alert(points.length);
-		
-		var tree = new kdTree(points, this.calculateDistance, ["state"]);
-		
-		var state=[];
-		state.push({num:1, den:3}, {num:1, den:2});
-		var nearest = tree.nearest({state}, points.length);
-		//alert(nearest.toSource());
-		
-//		alert(test.toSource());
-//		this.previousModel=currentModel;
-//		GenerateState();
-//		//alert(this.states.toSource());
-//		if (currentModel.initial_model.length==this.rule) {
-//			var distances=this.calculateEuclideanDistances(currentModel);
-//			if (distances.length>0) {
-//				this.getEuclideanSupport(distances);
-//			}
-//		}
+		this.previousModel=currentModel;
+		GenerateState();
+		//alert(this.states.toSource());
+		if (currentModel.initial_model.length==this.rule) {
+			var distances=this.calculateEuclideanDistances(currentModel);
+			if (distances.length>0) {
+				this.getEuclideanSupport(distances);
+			}
+		}
 	};
 	
 	//JLF: This algorithm only calcultates mathematical distances
@@ -58,47 +47,9 @@ function Support(st, rl) {
 	};
 	
 	//JLF: Calculate the distances
-//	 Example [[{num:1, den:3},{num:1, den:2}],
-//	 [{num:1, den:2}, {num:1, den:3}], 
-//	 [{num:5, den:8}, {num:6, den:3}], 
-//	 [{num:6, den:3}, {num:5, den:8}]]
-	Support.prototype.calculatePoints= function(){
-		var allPoints =[];
-		for(var i = 0; i < this.states[0].length; i++){
-			var points =[];
-			for (var k = 0; k < this.states[0][i].stObject.initial_model.length; k++){ //recorre todas las fracciones de un estado i
-				var point = {
-						num : this.states[0][i].stObject.initial_model[k].numerator,
-						den : this.states[0][i].stObject.initial_model[k].denominator
-				}
-				points.push(point);
-			}
-			var result = [];
-			permutate(points, function(a) {
-				var state ={
-						state : a.slice(0)
-				};
-				allPoints.push(state); //Guardamos un objeto con todas las posibles permutaciones de ese modelo
-			});
-		}
-		return allPoints;
+	Support.prototype.calculateHammingDistance= function(cm){
 	};
 	
-	//Funcion para calcular la distancia entre a y b donde a y b tienen un 
-	Support.prototype.calculateDistance= function(a, b){
-		//alert(a.toSource()); //[{num:5, den:8}, {num:6, den:3}]
-		//alert("A ="+a.toSource()+ " B ="+b.toSource()); //[{num:1, den:2}]
-		var mean=0;
-		//alert("tam="+a.state.length);
-		for (var i = 0; i < a.state.length; i++){
-			//alert("test1="+a.state[i].num);
-			//alert("test2="+b.state[i].num);
-			mean+=Math.sqrt(Math.pow(a.state[i].num - b.state[i].num, 2) +  Math.pow(a.state[i].den - b.state[i].den, 2));
-			//alert(mean);
-		}
-		//alert(mean);
-		return mean;
-	}
 	
 	//JLF Get the final state of all states
 	Support.prototype.getFinalState= function(){
@@ -108,6 +59,59 @@ function Support(st, rl) {
 		}
 	}
 	
+	
+	//Calcula las distancias euclideas con respecto al estado final, recibe como variable la posicion de donde se encuentra el estado final de la regla
+//	Support.prototype.calculateEuclideanDistancesToFinalState= function(fin) {
+//			var comparator=[];
+//			for(var i = 0; i < this.states[0].length; i++) { //Recorre todos los estados
+//				var checked=[];//Comprueba si esa fraccion ya fue comparada y obtuvo distancia minima para no tener que volver a compararla	
+//				for (var k = 0; k < this.states[0][i].stObject.initial_model.length; k++){ //recorre todas las fracciones de un estado i
+//						var dist=[];
+//						var cmp=100000;
+//						var top;
+//						var ch=0;
+//						for(var j = 0; j < this.states[0][fin].stObject.initial_model.length; j++){ // recorre todas las fracciones del estado final
+//							kcheck=false;
+//							for (r = 0; r < checked.length; r++){ //Comprobamos si ya ha sido chequeado
+//								if (checked[r] == k) {
+//									kcheck=true;
+//								}
+//							}
+//							if (!kcheck){
+//								top=(this.states[0][fin].stObject.initial_model[j].numerator/this.states[0][fin].stObject.initial_model[j].denominator)-
+//									(this.states[0][i].stObject.initial_model[k].numerator/this.states[0][i].stObject.initial_model[k].denominator)
+//								if (cmp>top){
+//									var cmp2=100000;
+//									var top2;
+//									//Hemos encontrado un candidato pero hay que comprobar ahora si los demas son mejores candidatos
+//									for (var x = 0; x < this.states[0][i].stObject.initial_model.length; x++) {
+//										top2=(this.states[0][fin].stObject.initial_model[j].numerator/this.states[0][fin].stObject.initial_model[j].denominator)-
+//										(this.states[0][i].stObject.initial_model[x].numerator/this.states[0][i].stObject.initial_model[x].denominator)
+//											if (cmp2>top2){
+//												cmp=top;
+//												ch=k;
+//											}
+//									}
+//									cmp=top;
+//									ch=k;
+//								}
+//							}
+//						}
+//						checked.pusk(ch);
+//						dist.push(cmp);
+//					}
+//					distances.push(this.averageDistances(dist));
+////				if (distances.length > 0) {
+////					var distFinal={
+////							state : i,
+////							distance: distances
+////						};
+////					comparator.push(distFinal);
+////				}
+//			}
+//		return comparator;
+//		
+//	}
 	
 	Support.prototype.getEuclideanSupport= function(dt) {
 		var fin=10000;

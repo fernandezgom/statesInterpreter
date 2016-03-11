@@ -9,7 +9,7 @@ function CustomAlert(){
                 dialogbox.style.left = (winW/2) - (700 * .5)+"px";
                 dialogbox.style.top = "35%";
                 dialogbox.style.display = "block";
-                document.getElementById('dialogboxhead').innerHTML = '<div id="dialogboxbody"> <table id="tableAlign"><tr><td><span id="verticalSpanLeft"><img src="/FractionsLab/images/frobot.png"></img></span></td><td> <span id="verticalSpanRight">' + dialog + '</span></td></tr></table></div><div style="margin-top: 7px; margin-bottom:2px; display:flex; "> <button style="margin-left:auto; margin-right:auto; " class="it2lbutton" onclick="Alert.ok()">OK</button></div>';
+                document.getElementById('dialogboxhead').innerHTML = '<div id="dialogboxbody"> <table id="tableAlign"><tr><td><span id="verticalSpanLeft"><img src="/irule/images/frobot.png"></img></span></td><td> <span id="verticalSpanRight">' + dialog + '</span></td></tr></table></div><div style="margin-top: 7px; margin-bottom:2px; display:flex; "> <button style="margin-left:auto; margin-right:auto; " class="it2lbutton" onclick="Alert.ok()">OK</button></div>';
              
             }
             this.ok = function(){

@@ -45,7 +45,7 @@ $(document).ready(function() {
 				 allSupport[i]=new Support(states.tip[i].rules,i+1);;
 			 }
 			 //JLF:Fix this patch
-			 setInterval(function(){allSupport[0].startSupport()},5000);
+			 //setInterval(function(){allSupport[0].startSupport()},5000);
 			 setInterval(function(){allSupport[1].startSupport()},5000);
 			 //var support= new Support(states.tip[0].rules,1);
 			 //setInterval(function(){support.startSupport()},5000);
@@ -143,6 +143,7 @@ function handleState(e) {
 	//$("#cb2").prop('checked', aux.include);
 	//$("#cb3").prop('checked', aux.sbu);
 	$("#cbState").prop('checked', aux.fState);
+	$("#cbFinal").prop('checked', aux.end);
 	LoadState(po);
 }
 
@@ -158,6 +159,7 @@ function saveButtonHandler() {
 		//states[po].include = $("#cb2").prop('checked');
 		//states[po].sbu = $("#cb3").prop('checked');
 		states[po].fState = $("#cbState").prop('checked');
+		states[po].end = $("#cbFinal").prop('checked');
 
 		for (var i=0; i<finalModel.tip.length; i++) {
 			for (var j=0; j<finalModel.tip[i].rules.length; j++) {
@@ -167,6 +169,7 @@ function saveButtonHandler() {
 					finalModel.tip[i].rules[0][j].didactic = $("#idi").val();
 					finalModel.tip[i].rules[0][j].exact = $("#cb1").prop('checked');
 					finalModel.tip[i].rules[0][j].fState = $("#cbState").prop('checked');
+					finalModel.tip[i].rules[0][j].end = $("#cbFinal").prop('checked');
 				}
 
 			}	
@@ -194,8 +197,8 @@ function SaveBlob(jsonString) {
 				guidance : "",
 				didactic : "",
 				fState : false,
-				exact : false
-				//include : false,
+				exact : false,
+				end : false
 				//sbu : false
 			};
 			states.push(stApp);

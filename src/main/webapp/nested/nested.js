@@ -1,5 +1,5 @@
 /**
- * JLF: The controller doesn't do much more than setting the initial data model
+ * JLF: The controller set the initial data model and observe the data tree in case it needs to call the statesInterpreter API.
  */
 angular.module("demo").controller("NestedListsDemoController",
 		function($scope) {
@@ -11,15 +11,13 @@ angular.module("demo").controller("NestedListsDemoController",
 					type : "state",
 					id : 1,
 					isValid: true,
-					//st : null,
 					stObject : null,
 					socratic : "",
 					guidance : "",
 					didactic : "",
 					fState : false,
+					end : false,
 					exact : false
-					//include : false,
-					//sbu : false
 				}, {
 					type : "rule",
 					id : 1,
@@ -39,19 +37,14 @@ angular.module("demo").controller("NestedListsDemoController",
 					activateHandlerStatesPanel(true);
 					handleState($scope.models.selected.id);
 					$scope.st=getSelectedState($scope.models.selected.id);
-					//$scope.models.selected.type=$scope.st.type;
-					//$scope.models.selected.id=$scope.st.id;
 					$scope.models.selected.isValid=$scope.st.isValid;
-					//$scope.models.selected.st=$scope.st.st;
 					$scope.models.selected.stObject=$scope.st.stObject;
 					$scope.models.selected.socratic=$scope.st.socratic;
 					$scope.models.selected.guidance=$scope.st.guidance;
 					$scope.models.selected.didactic=$scope.st.didactic;
 					$scope.models.selected.fstate=$scope.st.fstate;
+					$scope.models.selected.end=$scope.st.end;
 					$scope.models.selected.exact=$scope.st.exact;
-					//saveModel(model);
-					//$scope.models.selected.include=$scope.st.include;
-					//$scope.models.selected.sbu=$scope.st.sbu;					
 				} else {
 					activateHandlerStatesPanel(false);
 				}
