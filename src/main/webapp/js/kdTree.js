@@ -314,6 +314,23 @@
       }
       return result;
     };
+    
+    
+    this.getFinal = function (point, maxNodes) {
+    	var nearest = this.nearest(point, maxNodes);
+    	alert("todos  --"+nearest.toSource())
+    	var distance= 10000;
+    	var end=0;
+    	for(var i = 0; i < nearest.length; i++) {
+    		if (distance>nearest[i][1]) {
+    			distance=nearest[i][1];
+    			end=i;
+    		}
+    	}
+    	if (nearest[end]!= null && nearest[end].length>0)
+    		return nearest[end];
+    }
+
 
     this.balanceFactor = function () {
       function height(node) {

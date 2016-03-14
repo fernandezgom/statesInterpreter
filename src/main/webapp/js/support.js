@@ -3,22 +3,30 @@ function Support(st, rl) {
 	this.states = st;
 	this.rule=rl;
 	this.previousModel;
+	this.points;
+	this.tree;
+	this.equivalent=false;
 }	
 	
 	Support.prototype.startSupport = function(){
-		var points=this.calculatePoints();
-		//alert(points.length);
+		this.points=this.calculatePoints();
+		this.tree = new kdTree(this.points, this.calculateDistanceUsingWeights, ["state"]);
+//		var state=[];
+//		state.push({pos: -1, num:1, den:3}, {pos: -1, num:1, den:2});
+		//var nearest = tree.getFinal({state}, points.length); // Obtiene el estado mas cercano al estado actual del ejercicio
+		var fs=this.getFinalStates();
+		//var nearFinal = tree.getFinal({fs}, points.length); 
 		
-		var tree = new kdTree(points, this.calculateDistance, ["state"]);
-		
-		var state=[];
-		state.push({num:1, den:3}, {num:1, den:2});
-		var nearest = tree.nearest({state}, points.length);
-		//alert(nearest.toSource());
+//		alert(nearest.toSource());
+		//alert("Estado mas cercano al estado final ="+ nearFinal.toSource());
 		
 //		alert(test.toSource());
-//		this.previousModel=currentModel;
-//		GenerateState();
+		this.previousModel=currentModel;
+		GenerateState();
+		this.equivalent=false;
+		var estado=this.calculateMinimal(this.getCurrentStates()));
+		this.triggerSupport(estado,this.equivalent);
+		//var nearCurrent = tree.getFinal({cs}, points.length); 
 //		//alert(this.states.toSource());
 //		if (currentModel.initial_model.length==this.rule) {
 //			var distances=this.calculateEuclideanDistances(currentModel);
@@ -68,13 +76,14 @@ function Support(st, rl) {
 			var points =[];
 			for (var k = 0; k < this.states[0][i].stObject.initial_model.length; k++){ //recorre todas las fracciones de un estado i
 				var point = {
-						num : this.states[0][i].stObject.initial_model[k].numerator,
-						den : this.states[0][i].stObject.initial_model[k].denominator
+						pos : i, //State what it belongs this fraction
+						num : this.states[0][i].stObject.initial_model[k].numerator, // Fraction numerator
+						den : this.states[0][i].stObject.initial_model[k].denominator // Fraction denominator
 				}
 				points.push(point);
 			}
 			var result = [];
-			permutate(points, function(a) {
+			permutate(points, function(a) { // Permuting all possible fractions to get a whole state 
 				var state ={
 						state : a.slice(0)
 				};
@@ -100,14 +109,145 @@ function Support(st, rl) {
 		return mean;
 	}
 	
-	//JLF Get the final state of all states
-	Support.prototype.getFinalState= function(){
-		for (var j = 0; j < this.states[0][i].stObject.initial_model.length; j++){ //Comparamos cada estado con el del usuario
-			if (this.states[0][i].fState == true)
-				return i;
+	//Funcion para calcular la distancia entre a y b donde a y b tienen un 
+	Support.prototype.calculateDistanceUsingWeights= function(a, b){
+		//alert(a.toSource()); //[{num:5, den:8}, {num:6, den:3}]
+		//alert("A ="+a.toSource()+ " B ="+b.toSource()); //[{num:1, den:2}]
+		var ecWeight=2;
+		var resWeight=1;
+		var mean=0;
+		var aux=0; //Calcula euclidea conceptual
+		var aux2=0; //Calcula resultado
+		for (var i = 0; i < a.state.length; i++){
+			aux+=Math.pow(a.state[i].num - b.state[i].num, 2) +  Math.pow(a.state[i].den - b.state[i].den, 2);
+			aux2+=Math.abs((a.state[i].num - a.state[i].den)-(b.state[i].num - b.state[i].den))
 		}
+		if (this.equivalent== false) {
+			this.equivalent=(aux2==0);
+		}
+		mean= (ecWeight* Math.sqrt(aux) + resWeight*(aux2/a.state.length))/2;
+		return mean;
 	}
 	
+	//JLF Get the final states of all states. Tiene que haber uno si no es que ha habido un error
+	Support.prototype.getFinalStates= function(){
+		var points=[];
+		var allPoints =[];
+		for(var i = 0; i < this.states[0].length; i++) {//recorre todos los estados
+			for (var k = 0; k < this.states[0][i].stObject.initial_model.length; k++){//recorre todas las fracciones de un estado i
+				if (this.states[0][i].fState == true)
+					points.push({pos: i, num: this.states[0][i].stObject.initial_model[k].numerator, den:this.states[0][i].stObject.initial_model[k].denominator});
+			}
+		}
+		permutate(points, function(a) { // Permuting all possible fractions to get a whole state 
+			var st ={
+					state : a.slice(0)
+			};
+			allPoints.push(st); //Guardamos un objeto con todas las posibles permutaciones de ese estado final
+		});
+		//alert("Estados finales = " + allPoints.toSource());
+		return allPoints;
+	}
+	
+	
+	//JLF Get the current states. Si devuelve vacio es pq no aplica a esta regla
+	Support.prototype.getCurrentStates= function() {
+		var allPoints =[];
+		if (currentModel.initial_model.length==this.rule) {
+			var points=[];
+			for (var k = 0; k < currentModel.initial_model.length; k++){
+				var point = {
+						pos : -1, //this means that it is the current state
+						num : currentModel.initial_model[k].numerator, // Fraction numerator
+						den : currentModel.initial_model[k].denominator // Fraction denominator
+				}
+				points.push(point);
+			
+			}
+			permutate(points, function(a) { // Permuting all possible fractions to get a whole state 
+				var state ={
+						state : a.slice(0)
+				};
+				allPoints.push(state); //Guardamos un objeto con todas las posibles permutaciones de ese modelo
+			});
+		}
+		//alert("Estados actuales = " + allPoints.toSource());
+		return allPoints;
+	}
+	
+	Support.prototype.calculateMinimal= function(cs){
+		var distance=10000;
+		var end;
+		for (var i = 0; i < cs.length; i++) {//recorre todos los estados
+			var state=cs[i].state;
+			var nearFinal = this.tree.getFinal({state}, this.points.length);
+			if (distance > nearFinal[1]){
+				distance = nearFinal[1];
+				end=nearFinal;
+			}
+		}
+		if (end!= null)
+			alert("end complete = "+end.toSource());
+			return end[0].state[0].pos;//Devuelve la pos del estado mas cercano
+	}	
+	
+	Support.prototype.triggerSupport= function(sAux, fin) {
+		// Fin es true cuando la distancia es cero
+		if (sAux !=null){
+			if (this.states[0][sAux].end==true && this.states[0][sAux].exact==true && fin==true) { //Esto significa que es estado final total y es equivalente
+				Alert.render("Well done! You finished the exercise");
+				return;
+			} else if (this.states[0][sAux].end==true && this.states[0][sAux].exact==false && fin==true){// Aqui habra que comprobar si es equivalente
+				//Comprobar la no equivalencia de resultado y si es correcta ha terminado si no guidance
+				
+			} else if (this.states[0][sAux].fState==true && this.states[0][sAux].exact==true && fin==true) { //Esto significa que es estado final de regla pero no total y es equivalente
+				if (!this.isEmpty(this.states[0][sAux].socratic)){
+					Alert.render(this.states[0][sAux].socratic);
+				}
+				else {
+					Alert.render("Well done! You finished the exercise");
+				}
+			} else	if (this.states[0][sAux].fState==true && this.states[0][sAux].exact==false && fin==true) { //Esto significa que es estado final de regla pero no total y no es equivalente
+				
+				//Comprobar la no equivalencia de resultado y si es correcta socratico y si no guidance
+				
+			} else if (this.states[0][sAux].exact==true && fin==true) { // Si el estado es equivalente y exacto pero no es final
+				if (!this.isEmpty(this.states[0][sAux].socratic)) {
+					Alert.render(this.states[0][sAux].socratic);
+				}
+				else {
+					Alert.render("The teacher should provide socratic feedback for: state "+ sAux+" in rule "+ this.rule);
+				}
+			else if (this.states[0][sAux].exact==true && fin==false) { // Si el estado es equivalente pero no exacto
+				if (!this.isEmpty(this.states[0][sAux].didactic)) {
+					Alert.render(this.states[0][sAux].didactic);
+				}
+				else {
+					Alert.render("The teacher should provide didactic feedback for: state "+ sAux+" in rule "+ this.rule);
+				}
+			} else if (this.previousModel.initial_model.length!=this.rule) {
+				if (!this.isEmpty(this.states[0][sAux].didactic))
+					Alert.render(this.states[0][sAux].didactic);
+				else {
+					Alert.render("The teacher should provide didactic feedback for: state "+ sAux+" in rule "+ this.rule);
+				}
+			} else if (this.states[0][sAux].exact==false && fin==false) {
+				if (!this.isEmpty(this.states[0][sAux].guidance))
+					Alert.render(this.states[0][sAux].guidance);
+				else {
+					Alert.render("The teacher should provide Guidance feedback for: state "+ sAux+" in rule "+ this.rule);
+				}
+			} else {
+				if (!this.isEmpty(this.states[0][sAux].guidance))
+					Alert.render(this.states[0][sAux].guidance);
+				else {
+					Alert.render("The teacher should provide Guidance feedback for: state "+ sAux+" in rule "+ this.rule);
+				}
+			}	
+		}	
+		
+	}
+
 	
 	Support.prototype.getEuclideanSupport= function(dt) {
 		var fin=10000;
