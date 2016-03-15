@@ -17,6 +17,7 @@ $(document).ready(function() {
 		$("#saveInterpreter").show();
 		$("#loadInterpreter").hide();
 		$("#exercisePrompt").hide();
+		$("#taskFiller").hide();
 	} else {
 		$("#handlerStates").hide();
 		$("#taskFiller").hide();
@@ -116,6 +117,7 @@ function saveModel(model){
 
 
 function confirmState() {
+	$("#taskFiller").show();
 	hackWebGLKeyboard();
 	pos++;
 }
@@ -248,25 +250,29 @@ function LoadState(p) {
 
 //JLF: Saves the tip file to use in student mode
 function saveStatesInterpreter(){
-	var task = {
-				tname : $("#tName").val(),
-				tdescription : $("#tDescription").val(),
-				tip : finalModel.tip
-			};
-	//finalModel.unshift(task);	
-	var myJsonString = JSON.stringify(task);
-	var blob = new Blob([myJsonString]);
-	  if(Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0){
-			uriContent = "data:attachment/csv;charset=utf-8," + encodeURI(jsonString);
-			var downloadLink = document.createElement("a");
-			downloadLink.href = uriContent;
-			downloadLink.download = "statesInterpreter.tip";
-			document.body.appendChild(downloadLink);
-			downloadLink.click();
-			document.body.removeChild(downloadLink);
-	  }
-	  else
-			saveAs(blob, "statesInterpreter.tip");
+	if ($("#tName").val().length>0 && $("#tDescription").val().length>0) {
+		var task = {
+					tname : $("#tName").val(),
+					tdescription : $("#tDescription").val(),
+					tip : finalModel.tip
+				};
+		//finalModel.unshift(task);	
+		var myJsonString = JSON.stringify(task);
+		var blob = new Blob([myJsonString]);
+		  if(Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0){
+				uriContent = "data:attachment/csv;charset=utf-8," + encodeURI(jsonString);
+				var downloadLink = document.createElement("a");
+				downloadLink.href = uriContent;
+				downloadLink.download = "statesInterpreter.tip";
+				document.body.appendChild(downloadLink);
+				downloadLink.click();
+				document.body.removeChild(downloadLink);
+		  }
+		  else
+				saveAs(blob, "statesInterpreter.tip");
+	} else {
+		Alert.render("Task name and task description cannot be empty");
+	}
 }
 
 function getUrlVars() {
