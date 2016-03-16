@@ -11,16 +11,7 @@ function Support(st, rl) {
 	Support.prototype.startSupport = function(){
 		this.points=this.calculatePoints();
 		this.tree = new kdTree(this.points, this.calculateDistanceUsingWeights, ["state"]);
-//		var state=[];
-//		state.push({pos: -1, num:1, den:3}, {pos: -1, num:1, den:2});
-		//var nearest = tree.getFinal({state}, points.length); // Obtiene el estado mas cercano al estado actual del ejercicio
-		var fs=this.getFinalStates();
-		//var nearFinal = tree.getFinal({fs}, points.length); 
-		
-//		alert(nearest.toSource());
-		//alert("Estado mas cercano al estado final ="+ nearFinal.toSource());
-		
-//		alert(test.toSource());
+		//var fs=this.getFinalStates();
 		this.previousModel=currentModel;
 		GenerateState();
 		this.equivalent=false;
@@ -36,40 +27,7 @@ function Support(st, rl) {
 //		}
 	};
 	
-	//JLF: This algorithm only calcultates mathematical distances
-	Support.prototype.calculateEuclideanDistances= function(cm) {
-		var comparator=[];
-		//alert(this.states.tip[0].rules.toSource());
-		//alert(cm.toSource());
-		if (cm.initial_model.length==this.rule) {
-			//alert(this.states[0].length);
-			for(var i = 0; i < this.states[0].length; i++) {
-				var distances=[];
-				for(var k = 0; k < cm.initial_model.length; k++){
-					var dist=[];
-					for (var j = 0; j < this.states[0][i].stObject.initial_model.length; j++){ //Comparamos cada estado con el del usuario
-						cmp=(cm.initial_model[k].numerator/cm.initial_model[k].denominator)-(this.states[0][i].stObject.initial_model[j].numerator/this.states[0][i].stObject.initial_model[j].denominator)
-						dist.push(cmp);
-					}
-					distances.push(this.averageDistances(dist));
-				}
-				if (distances.length > 0) {
-					var distFinal={
-							state : i,
-							distance: distances
-						};
-					comparator.push(distFinal);
-				}
-			}
-		}
-		return comparator;
-	};
-	
-	//JLF: Calculate the distances
-//	 Example [[{num:1, den:3},{num:1, den:2}],
-//	 [{num:1, den:2}, {num:1, den:3}], 
-//	 [{num:5, den:8}, {num:6, den:3}], 
-//	 [{num:6, den:3}, {num:5, den:8}]]
+	//JLF: Get all possible points of the tip file associated to a concrete rule in put into an stucture  
 	Support.prototype.calculatePoints= function(){
 		var allPoints =[];
 		for(var i = 0; i < this.states[0].length; i++){
@@ -110,23 +68,28 @@ function Support(st, rl) {
 		return mean;
 	}
 	
-	//Funcion para calcular la distancia entre a y b donde a y b tienen un 
+	//Funcion para calcular la distancia entre a y b 
 	Support.prototype.calculateDistanceUsingWeights= function(a, b){
 		//alert(a.toSource()); //[{num:5, den:8}, {num:6, den:3}]
 		//alert("A ="+a.toSource()+ " B ="+b.toSource()); //[{num:1, den:2}]
 		var ecWeight=2;
 		var resWeight=1;
-		var mean=0;
+		var repWeight=1;
+		var distance=0;
 		var aux=0; //Calcula euclidea conceptual
-		var aux2=0; //Calcula resultado
+		var aux2=0; //Calcula el valor real
+		var aux3=0; //Calcula la distancia entre las representaciones
 		for (var i = 0; i < a.state.length; i++){
 			aux+=Math.pow(a.state[i].num - b.state[i].num, 2) +  Math.pow(a.state[i].den - b.state[i].den, 2);
-			aux2+=Math.abs((a.state[i].num - a.state[i].den)-(b.state[i].num - b.state[i].den))
+			aux2+=(a.state[i].num / a.state[i].den)+(b.state[i].num / b.state[i].den);
+			if (a.state[i].rep!=b.state[i].rep) {
+				aux3+=1;
+			}
 		}
 		if (this.equivalent==false) {
 			this.equivalent=(aux2==0);
 		}
-		mean= (ecWeight* Math.sqrt(aux) + resWeight*(aux2/a.state.length))/2;
+		distance=(ecWeight* (1/1+Math.sqrt(aux)) + resWeight*(1/1+(aux2/a.state.length)) + repWeight*(1/1+aux3));
 		return mean;
 	}
 	
