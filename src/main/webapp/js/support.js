@@ -1,3 +1,7 @@
+// Singleton variable
+var equivalente=false;
+
+
 function Support(st, rl) {
 	
 	this.states = st;
@@ -11,20 +15,17 @@ function Support(st, rl) {
 	Support.prototype.startSupport = function(){
 		this.points=this.calculatePoints();
 		this.tree = new kdTree(this.points, this.calculateDistanceUsingWeights, ["state"]);
-		//var fs=this.getFinalStates();
-		this.previousModel=currentModel;
+	};
+	
+	Support.prototype.getSupport = function(){
 		GenerateState();
-		this.equivalent=false;
-		var estado=this.calculateMinimal(this.getCurrentStates());
-		this.triggerSupport(estado.pos, estado.distance, this.equivalent);
-		//var nearCurrent = tree.getFinal({cs}, points.length); 
-//		//alert(this.states.toSource());
-//		if (currentModel.initial_model.length==this.rule) {
-//			var distances=this.calculateEuclideanDistances(currentModel);
-//			if (distances.length>0) {
-//				this.getEuclideanSupport(distances);
-//			}
-//		}
+		if (currentModel.initial_model.length==this.rule){
+			this.previousModel=currentModel;
+			equivalente=false;
+			var estado=this.calculateMinimal(this.getCurrentStates());
+			if (estado!=null)
+				this.triggerSupport(estado.pos, estado.distance, equivalente);
+		}
 	};
 	
 	//JLF: Get all possible points of the tip file associated to a concrete rule in put into an stucture  
@@ -66,7 +67,7 @@ function Support(st, rl) {
 		}
 		//alert(mean);
 		return mean;
-	}
+	};
 	
 	//Funcion para calcular la distancia entre a y b 
 	Support.prototype.calculateDistanceUsingWeights= function(a, b){
@@ -81,17 +82,17 @@ function Support(st, rl) {
 		var aux3=0; //Calcula la distancia entre las representaciones
 		for (var i = 0; i < a.state.length; i++){
 			aux+=Math.pow(a.state[i].num - b.state[i].num, 2) +  Math.pow(a.state[i].den - b.state[i].den, 2);
-			aux2+=(a.state[i].num / a.state[i].den)+(b.state[i].num / b.state[i].den);
-			if (a.state[i].rep!=b.state[i].rep) {
+			aux2+=Math.abs((a.state[i].num / a.state[i].den)-(b.state[i].num / b.state[i].den));
+			if (a.state[i].rep.localeCompare(b.state[i].rep)!=0) {
 				aux3+=1;
 			}
 		}
-		if (this.equivalent==false) {
-			this.equivalent=(aux2==0);
+		if (equivalente==false) {
+			equivalente=(aux2==0);
 		}
 		distance=(ecWeight* (1/1+Math.sqrt(aux)) + resWeight*(1/1+(aux2/a.state.length)) + repWeight*(1/1+aux3));
-		return mean;
-	}
+		return distance;
+	};
 	
 	//JLF Get the final states of all states. Tiene que haber uno si no es que ha habido un error
 	Support.prototype.getFinalStates= function(){
@@ -111,7 +112,7 @@ function Support(st, rl) {
 		});
 		//alert("Estados finales = " + allPoints.toSource());
 		return allPoints;
-	}
+	};
 	
 	
 	//JLF Get the current states. Si devuelve vacio es pq no aplica a esta regla
@@ -138,7 +139,7 @@ function Support(st, rl) {
 		}
 		//alert("Estados actuales = " + allPoints.toSource());
 		return allPoints;
-	}
+	};
 	
 	Support.prototype.calculateMinimal= function(cs){
 		var distance=10000;
@@ -152,16 +153,18 @@ function Support(st, rl) {
 			}
 		}
 		if (end!= null) {
-			alert("end complete = "+end.toSource());
-			var result;
-			result.pos=end[0].state[0].pos;
-			result.distance=(distance==0);
+			//alert("end complete = "+end.toSource() + "equivalente = "+ equivalente);
+			var result={
+					pos:end[0].state[0].pos,
+					distance:(distance==1)
+			};
 			return result;//Devuelve la pos del estado mas cercano
 		}
-	}	
+	};	
 	
 	Support.prototype.triggerSupport= function(sAux, fin, equi) {
 		// Fin es true cuando la distancia es cero
+		//alert("state = "+sAux+ "distancia0 = "+ fin + "equivalente = "+equi);
 		if (sAux !=null){
 			if (this.states[0][sAux].end==true && this.states[0][sAux].exact==true && fin==true) { //Esto significa que es estado final total y la distancia es 0
 				Alert.render("Well done! You finished the exercise");
@@ -203,7 +206,6 @@ function Support(st, rl) {
 						Alert.render("The teacher should provide Guidance feedback for: state "+ sAux+" in rule "+ this.rule);
 					}
 				}
-				//Anyadir reglas tb para comprobar el tipo de representacion que se ha hecho para la fraccion
 			} else if (this.states[0][sAux].exact==true && fin==true) { // Si el estado es equivalente y exacto pero no es final
 				if (!this.isEmpty(this.states[0][sAux].socratic)) {
 					Alert.render(this.states[0][sAux].socratic);
@@ -239,67 +241,10 @@ function Support(st, rl) {
 			}	
 		}	
 		
-	}
-
-	
-	Support.prototype.getEuclideanSupport= function(dt) {
-		var fin=10000;
-		var sAux;
-		for(var i = 0; i < dt.length; i++){
-			var global=0;
-			for (var j = 0; j < dt[i].distance.length; j++){
-				global+=dt[i].distance[j];
-			}
-			console.log("State="+ i + " -- Distance="+ Math.abs(global));
-			if (fin>Math.abs(global)){
-				fin=Math.abs(global);
-				sAux=i;
-			}
-		}
-		if (sAux !=null){ //Devuelve el socratic feedback del estado mas cercano
-			if (this.states[0][sAux].fState==true && fin==0) { //At the moment only shows the final exact state
-				if (!this.isEmpty(this.states[0][sAux].socratic))
-					Alert.render(this.states[0][sAux].socratic);
-				else {
-					Alert.render("Well done! You finished the exercise");
-				}
-			} else if (fin == 0){
-				if (!this.isEmpty(this.states[0][sAux].guidance))
-					Alert.render(this.states[0][sAux].guidance);
-				else {
-					Alert.render("The teacher should provide Guidance feedback for: state "+ sAux+" in rule "+ this.rule);
-				}
-			} else if (this.previousModel.initial_model.length!=this.rule) {
-				if (!this.isEmpty(this.states[0][sAux].didactic))
-					Alert.render(this.states[0][sAux].didactic);
-				else {
-					Alert.render("The teacher should provide Didactic feedback for: state "+ sAux+" in rule "+ this.rule);
-				}
-			} else {
-				if (!this.isEmpty(this.states[0][sAux].socratic))
-					Alert.render(this.states[0][sAux].socratic);
-				else {
-					Alert.render("The teacher should provide Socratic feedback for: state "+ sAux+" in rule "+ this.rule);
-				}
-			}	
-		}	
 	};
+
 	
 	Support.prototype.isEmpty= function(str) {
 		return (!str || 0 === str.length);
 		
-	}
-	
-
-	Support.prototype.averageDistances= function(ds) {
-		var avDistance=0;
-		var cont=0;
-		for(var i = 0; i < ds.length; i++){
-			avDistance=avDistance+ds[i];
-			cont++;
-		}
-		if (cont>0)
-			return avDistance/cont;
-		else 
-			return null;
 	};

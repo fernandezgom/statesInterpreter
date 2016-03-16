@@ -43,13 +43,38 @@ $(document).ready(function() {
 			 $("#task1").html(states.tdescription);
 			 var allSupport=[];
 			 for(var i = 0; i < states.tip.length; i++) {
-				 allSupport[i]=new Support(states.tip[i].rules,i+1);;
+				 allSupport[i]=new Support(states.tip[i].rules,i+1);
+				 allSupport[i].startSupport();
 			 }
 			 //JLF:Fix this patch
-			 //setInterval(function(){allSupport[0].startSupport()},5000);
-			 setInterval(function(){allSupport[1].startSupport()},5000);
-			 //var support= new Support(states.tip[0].rules,1);
-			 //setInterval(function(){support.startSupport()},5000);
+			 if (allSupport.length==1){
+				 setInterval(function(){allSupport[0].getSupport()},5000);
+			 } else if (allSupport.length==2){
+				 setInterval(function(){allSupport[0].getSupport()},5000);
+				 setInterval(function(){allSupport[1].getSupport()},5000);
+			 } else if (allSupport.length==3){
+				 setInterval(function(){allSupport[0].getSupport()},5000);
+				 setInterval(function(){allSupport[1].getSupport()},5000);
+				 setInterval(function(){allSupport[2].getSupport()},5000);
+			 } else if (allSupport.length==4){
+				 setInterval(function(){allSupport[0].getSupport()},5000);
+				 setInterval(function(){allSupport[1].getSupport()},5000);
+				 setInterval(function(){allSupport[2].getSupport()},5000);
+				 setInterval(function(){allSupport[3].getSupport()},5000);
+			 } else if (allSupport.length==5){
+				 setInterval(function(){allSupport[0].getSupport()},5000);
+				 setInterval(function(){allSupport[1].getSupport()},5000);
+				 setInterval(function(){allSupport[2].getSupport()},5000);
+				 setInterval(function(){allSupport[3].getSupport()},5000);
+				 setInterval(function(){allSupport[4].getSupport()},5000);
+			 } else if (allSupport.length==6){
+				 setInterval(function(){allSupport[0].getSupport()},5000);
+				 setInterval(function(){allSupport[1].getSupport()},5000);
+				 setInterval(function(){allSupport[2].getSupport()},5000);
+				 setInterval(function(){allSupport[3].getSupport()},5000);
+				 setInterval(function(){allSupport[4].getSupport()},5000);
+				 setInterval(function(){allSupport[5].getSupport()},5000);
+			 }
 		  }
 		  r.readAsText(f);
 		}

@@ -318,7 +318,7 @@
     
     this.getFinal = function (point, maxNodes) {
     	var nearest = this.nearest(point, maxNodes);
-    	alert("todos  --"+nearest.toSource())
+    	//alert("todos  --"+nearest.toSource())
     	var distance= 10000;
     	var end=0;
     	for(var i = 0; i < nearest.length; i++) {
