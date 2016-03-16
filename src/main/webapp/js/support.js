@@ -72,9 +72,9 @@ function Support(st, rl) {
 	Support.prototype.calculateDistanceUsingWeights= function(a, b){
 		//alert(a.toSource()); //[{num:5, den:8}, {num:6, den:3}]
 		//alert("A ="+a.toSource()+ " B ="+b.toSource()); //[{num:1, den:2}]
-		var ecWeight=2;
-		var resWeight=1;
-		var repWeight=1;
+		var ecWeight=0.4;
+		var resWeight=0.3;
+		var repWeight=0.3;
 		var distance=0;
 		var aux=0; //Calcula euclidea conceptual
 		var aux2=0; //Calcula el valor real
