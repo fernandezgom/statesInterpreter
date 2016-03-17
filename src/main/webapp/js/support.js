@@ -1,5 +1,6 @@
 // Singleton variable
-var equivalente=false;
+var equivalente=[];
+var teacherHelp=true;
 
 
 function Support(st, rl) {
@@ -21,10 +22,17 @@ function Support(st, rl) {
 		GenerateState();
 		if (currentModel.initial_model.length==this.rule){
 			this.previousModel=currentModel;
-			equivalente=false;
+			equivalente=[];
 			var estado=this.calculateMinimal(this.getCurrentStates());
-			if (estado!=null)
-				this.triggerSupport(estado.pos, estado.distance, equivalente);
+			if (estado!=null) {
+				var equiv=false;
+				for(var i = 0; i < equivalente.length; i++){ //Comprobamos si el estado que vamos a pasar es equivalente de todos los estados que tenemos
+					if (equivalente[i]==estado.pos){
+						equiv=true;
+					}
+				}
+				this.triggerSupport(estado.pos, estado.distance, equiv);
+			}
 		}
 	};
 	
@@ -87,8 +95,9 @@ function Support(st, rl) {
 				aux3+=1;
 			}
 		}
-		if (equivalente==false) {
-			equivalente=(aux2==0);
+		
+		if (aux2==0){
+			equivalente.push(b.state[0].pos);
 		}
 		distance=(ecWeight* (1/1+Math.sqrt(aux)) + resWeight*(1/1+(aux2/a.state.length)) + repWeight*(1/1+aux3));
 		return distance;
@@ -164,7 +173,7 @@ function Support(st, rl) {
 	
 	Support.prototype.triggerSupport= function(sAux, fin, equi) {
 		// Fin es true cuando la distancia es cero
-		//alert("state = "+sAux+ "distancia0 = "+ fin + "equivalente = "+equi);
+		alert("state = "+sAux+ " distancia0 = "+ fin + " equivalente = "+equi);
 		if (sAux !=null){
 			if (this.states[0][sAux].end==true && this.states[0][sAux].exact==true && fin==true) { //Esto significa que es estado final total y la distancia es 0
 				Alert.render("Well done! You finished the exercise");
@@ -172,13 +181,13 @@ function Support(st, rl) {
 			} else if (this.states[0][sAux].end==true && this.states[0][sAux].exact==false && fin==true){
 				// Aqui habra que comprobar si es equivalente
 				//Comprobar la no equivalencia de resultado y si es correcta ha terminado si no guidance
-				if (equi){
+				if (equi) {
 					Alert.render("Well done! You finished the exercise");
 					return;
 				} else {
 					if (!this.isEmpty(this.states[0][sAux].guidance))
 						Alert.render(this.states[0][sAux].guidance);
-					else {
+					else if (teacherHelp) {
 						Alert.render("The teacher should provide Guidance feedback for: state "+ sAux+" in rule "+ this.rule);
 					}
 				}
@@ -195,14 +204,14 @@ function Support(st, rl) {
 					if (!this.isEmpty(this.states[0][sAux].socratic)) {
 						Alert.render(this.states[0][sAux].socratic);
 					}
-					else {
+					else if (teacherHelp) {
 						Alert.render("The teacher should provide socratic feedback for: state "+ sAux+" in rule "+ this.rule);
 					}
 					return;
 				} else {
 					if (!this.isEmpty(this.states[0][sAux].guidance))
 						Alert.render(this.states[0][sAux].guidance);
-					else {
+					else if (teacherHelp) {
 						Alert.render("The teacher should provide Guidance feedback for: state "+ sAux+" in rule "+ this.rule);
 					}
 				}
@@ -210,32 +219,32 @@ function Support(st, rl) {
 				if (!this.isEmpty(this.states[0][sAux].socratic)) {
 					Alert.render(this.states[0][sAux].socratic);
 				}
-				else {
+				else if (teacherHelp) {
 					Alert.render("The teacher should provide socratic feedback for: state "+ sAux+" in rule "+ this.rule);
 				}
 			} else if (this.states[0][sAux].exact==true && fin==false) { // Si el estado es equivalente pero no exacto
 				if (!this.isEmpty(this.states[0][sAux].didactic)) {
 					Alert.render(this.states[0][sAux].didactic);
 				}
-				else {
+				else if (teacherHelp) {
 					Alert.render("The teacher should provide didactic feedback for: state "+ sAux+" in rule "+ this.rule);
 				}
 			} else if (this.previousModel.initial_model.length!=this.rule) {
 				if (!this.isEmpty(this.states[0][sAux].didactic))
 					Alert.render(this.states[0][sAux].didactic);
-				else {
+				else if (teacherHelp) {
 					Alert.render("The teacher should provide didactic feedback for: state "+ sAux+" in rule "+ this.rule);
 				}
 			} else if (this.states[0][sAux].exact==false && fin==false) {
 				if (!this.isEmpty(this.states[0][sAux].guidance))
 					Alert.render(this.states[0][sAux].guidance);
-				else {
+				else if (teacherHelp) {
 					Alert.render("The teacher should provide Guidance feedback for: state "+ sAux+" in rule "+ this.rule);
 				}
 			} else {
 				if (!this.isEmpty(this.states[0][sAux].guidance))
 					Alert.render(this.states[0][sAux].guidance);
-				else {
+				else if (teacherHelp) {
 					Alert.render("The teacher should provide Guidance feedback for: state "+ sAux+" in rule "+ this.rule);
 				}
 			}	
