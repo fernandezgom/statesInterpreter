@@ -1,12 +1,17 @@
 //JLF: Variable que contiene todos los valores para incluir en el tip file
 var states = [];
+var rules=[];
 // Guardamos la posicion para anyadir id's
 var pos = 1;
+var posRule = 1;
 var currentState = 0;
+var currentRule = 0;
 var newState;
+var newRule;
 var role;
 var finalModel;
 var currentModel;
+var teacherHelp=false;
 
 $(document).ready(function() {
 	// hackWebGLKeyboard();
@@ -18,13 +23,17 @@ $(document).ready(function() {
 		$("#loadInterpreter").hide();
 		$("#exercisePrompt").hide();
 		$("#taskFiller").hide();
-	} else {
+		$("#distancePanel").hide();
+	} else if (role == "student"){
 		$("#handlerStates").hide();
 		$("#taskFiller").hide();
+		$("#distancePanel").hide();
 		$("#lista").hide();
 		$("#saveInterpreter").hide();
 		$("#new").hide();
 		$("#loadInterpreter").show();
+	} else if (role == "tdebug"){
+		var teacherHelp=true;	
 	}
 	var control = document.getElementById("fileLoader");
 	control.addEventListener("change", function(event) {
@@ -43,7 +52,7 @@ $(document).ready(function() {
 			 $("#task1").html(states.tdescription);
 			 var allSupport=[];
 			 for(var i = 0; i < states.tip.length; i++) {
-				 allSupport[i]=new Support(states.tip[i].rules,i+1);
+				 allSupport[i]=new Support(states.tip[i].rules,i+1,states.tip[i].maxDistance);
 				 allSupport[i].startSupport();
 			 }
 			 //JLF:Fix this patch
@@ -118,6 +127,11 @@ function cleanHandleStatePanel() {
 	$("#cbState").prop('checked', false);
 }
 
+function cleanHandleRulePanel() {
+	$("#headModalRule").html("");
+	$("#mDistance").val("");
+}
+
 $("#menu-toggle").click(function(e) {
 	e.preventDefault();
 	$("#wrapper").toggleClass("toggled");
@@ -125,15 +139,21 @@ $("#menu-toggle").click(function(e) {
 
 //This creates a new state inside the tree of states
 function handleNewTask(model) { 
-	//var r = confirm("Do you want to create a new state?");
-	//if (r == true) {
 	finalModel=model;
 	newState = true;
 	SendMessage("Interface", "CleanWorkspaceByBrowser");
 	GenerateState();
 	confirmState();
 	cleanHandleStatePanel();
-	//}
+}
+
+function handleNewRule(model) { 
+	//finalModel=model;
+	newRule = true;
+	SendMessage("Interface", "CleanWorkspaceByBrowser");
+	confirmRule();
+	LoadRule();
+	cleanHandleRulePanel();
 }
 
 function saveModel(model){
@@ -147,15 +167,22 @@ function confirmState() {
 	pos++;
 }
 
+function confirmRule() {
+	$("#taskFiller").show();
+	hackWebGLKeyboard();
+	posRule++;
+}
+
 function activateHandlerStatesPanel(enable){
 	if (enable){
 		$("#handlerStates").show();
+		$("#distancePanel").hide();
+	
 	} else {
 		$("#handlerStates").hide();
+		$("#distancePanel").show();
 	}
-	
 }
-
 
 //JLF: This function shows in the right panel the guidance values
 function handleState(e) {
@@ -172,6 +199,16 @@ function handleState(e) {
 	$("#cbState").prop('checked', aux.fState);
 	$("#cbFinal").prop('checked', aux.end);
 	LoadState(po);
+}
+
+function handleRule(e) {
+	currentRule = e;
+	var po = e - 1;
+	var aux = rules[po];
+	$("#headModalRule").html("Rule " + e);
+	$("#mDistance").val(aux.maxDistance);
+	SendMessage("Interface", "CleanWorkspaceByBrowser");
+	LoadRule(po);
 }
 
 //JLF: Save the current state
@@ -202,6 +239,23 @@ function saveButtonHandler() {
 			}	
 		}
 		GenerateState();
+	}
+}
+
+//JLF: Save the current state
+function saveButtonHandlerDistance() {
+	if (currentRule > 0 && finalModel != null && isInt($("#mDistance").val())) { //Indica que por lo menos hay un estado
+		newRule = false;
+		var po = currentRule - 1;
+		rules[po].maxDistance = $("#mDistance").val();
+		for (var i=0; i<finalModel.tip.length; i++) {
+			if (finalModel.tip[i].id==currentRule){
+				finalModel.tip[i].maxDistance = $("#mDistance").val();
+			}
+
+		}
+	} else {
+		Alert.render("You have to introduce an integer");
 	}
 }
 
@@ -247,8 +301,32 @@ function SaveBlob(jsonString) {
 	}
 }
 
+function LoadRule(jsonString) {
+	if (role == "teacher") {
+		if (newRule == true) {
+			var rlApp = {
+				type : "rule",
+				id : posRule - 1,
+				maxDistance : 2
+			};
+			rules.push(rlApp);
+		} else {
+			var po = currentRule - 1;
+			for (var i=0; i<finalModel.tip.length; i++) {
+				if (finalModel.tip[i].id==currentRule){
+					finalModel.tip[i].maxDistance= $("#mDistance").val();
+				}
+			}
+		}
+	} 
+}
+
 function getSelectedState(pos){
 	return states[pos-1];
+}
+
+function getSelectedRule(pos){
+	return rules[pos-1];
 }
 
 //This cleans the whole workspace to re-generate the states tree again
@@ -260,8 +338,10 @@ function ConfirmNewTask() {
 		cleanHandleStatePanel();
 		$("#handlerStates").hide();
 		states= [];
+		rules=[];
 		pos = 1;
 		currentState = 0;
+		currentRule = 0;
 //		No longer needed these lines with the new component
 //		var clone = $("#fsChild").clone();
 //		$("#lista").empty();
@@ -309,4 +389,8 @@ function getUrlVars() {
         vars[hash[0]] = hash[1];
     }
     return vars;
+}
+
+function isInt(value) {
+	  return !isNaN(value) && (function(x) { return (x | 0) === x; })(parseFloat(value))
 }

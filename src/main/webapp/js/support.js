@@ -1,9 +1,7 @@
 // Singleton variable
 var equivalente=[];
-var teacherHelp=true;
 
-
-function Support(st, rl) {
+function Support(st, rl, md) {
 	
 	this.states = st;
 	this.rule=rl;
@@ -11,6 +9,7 @@ function Support(st, rl) {
 	this.points;
 	this.tree;
 	this.equivalent=false;
+	this.mDistance=parseInt(md);
 }	
 	
 	Support.prototype.startSupport = function(){
@@ -24,7 +23,7 @@ function Support(st, rl) {
 			this.previousModel=currentModel;
 			equivalente=[];
 			var estado=this.calculateMinimal(this.getCurrentStates());
-			if (estado!=null) {
+			if (estado!=null && estado.totalDistance<=this.mDistance) {
 				var equiv=false;
 				for(var i = 0; i < equivalente.length; i++){ //Comprobamos si el estado que vamos a pasar es equivalente de todos los estados que tenemos
 					if (equivalente[i]==estado.pos){
@@ -165,7 +164,8 @@ function Support(st, rl) {
 			//alert("end complete = "+end.toSource() + "equivalente = "+ equivalente);
 			var result={
 					pos:end[0].state[0].pos,
-					distance:(distance==1)
+					distance:(distance==1),
+					totalDistance : distance
 			};
 			return result;//Devuelve la pos del estado mas cercano
 		}

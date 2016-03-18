@@ -21,6 +21,7 @@ angular.module("demo").controller("NestedListsDemoController",
 				}, {
 					type : "rule",
 					id : 1,
+					maxDistance : "2",
 					rules : [ [] ]
 				} ],
 				dropzones : {
@@ -28,6 +29,7 @@ angular.module("demo").controller("NestedListsDemoController",
 				}
 			};
 			$scope.st = null;
+			$scope.rl = null;
 			$scope.$watch('models.dropzones', function(model) {
 				saveModel(model);
 				$scope.modelAsJson = angular.toJson(model, true);
@@ -47,10 +49,16 @@ angular.module("demo").controller("NestedListsDemoController",
 					$scope.models.selected.exact=$scope.st.exact;
 				} else {
 					activateHandlerStatesPanel(false);
+					handleRule($scope.models.selected.id);
+					$scope.rl=getSelectedRule($scope.models.selected.id);
+					$scope.models.selected.maxDistance=$scope.rl.maxDistance;
 				}
 			}, true);
 			$scope.$watch('models.drop', function(model) {
 				if ($scope.models.drop!=null && $scope.models.drop.type!="rule")
 					handleNewTask(model);
+				else if ($scope.models.drop!=null) {
+					handleNewRule(model);
+				}
 			}, true);
 		});
